@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PAWPMD.Mvc", "PAWPMD.Mvc.csproj", "{DE118340-5D2B-434D-9616-F3181E80921C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PAWPMD.Models", "..\PAWPMD.Models\PAWPMD.Models.csproj", "{F16DA380-DA08-43AE-8627-9A6DA3132549}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PAWPMD.Data", "..\PAWPMD.Data\PAWPMD.Data.csproj", "{F923D79A-27AB-4C39-BFF1-18AF5561186A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAWPMD.Architecture", "..\PAWPMD.Architecture\PAWPMD.Architecture.csproj", "{6BD013E9-1FED-4241-869B-EEFE851B515C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAWPMD.Service", "..\PAWPMD.Services\PAWPMD.Service.csproj", "{10FC2B1A-B012-4E63-9E6B-9760C815D74A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAWPMD.Api", "..\PAWPMD.Api\PAWPMD.Api.csproj", "{AA5F2149-1988-4287-AA47-4AD198A45798}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE118340-5D2B-434D-9616-F3181E80921C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE118340-5D2B-434D-9616-F3181E80921C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE118340-5D2B-434D-9616-F3181E80921C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE118340-5D2B-434D-9616-F3181E80921C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16DA380-DA08-43AE-8627-9A6DA3132549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16DA380-DA08-43AE-8627-9A6DA3132549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16DA380-DA08-43AE-8627-9A6DA3132549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16DA380-DA08-43AE-8627-9A6DA3132549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F923D79A-27AB-4C39-BFF1-18AF5561186A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F923D79A-27AB-4C39-BFF1-18AF5561186A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F923D79A-27AB-4C39-BFF1-18AF5561186A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F923D79A-27AB-4C39-BFF1-18AF5561186A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD013E9-1FED-4241-869B-EEFE851B515C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD013E9-1FED-4241-869B-EEFE851B515C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD013E9-1FED-4241-869B-EEFE851B515C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD013E9-1FED-4241-869B-EEFE851B515C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FC2B1A-B012-4E63-9E6B-9760C815D74A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FC2B1A-B012-4E63-9E6B-9760C815D74A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FC2B1A-B012-4E63-9E6B-9760C815D74A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FC2B1A-B012-4E63-9E6B-9760C815D74A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA5F2149-1988-4287-AA47-4AD198A45798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA5F2149-1988-4287-AA47-4AD198A45798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA5F2149-1988-4287-AA47-4AD198A45798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA5F2149-1988-4287-AA47-4AD198A45798}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F910615-F79C-4D81-ABB8-259BCCE00278}
+	EndGlobalSection
+EndGlobal
