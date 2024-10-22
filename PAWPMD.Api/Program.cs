@@ -22,6 +22,11 @@ builder.Services.AddScoped<IPasswordHasher , PasswordHasher>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<UserWidgetRepository, UserWidgetRepository>();
+builder.Services.AddScoped<IUserWidgetService, UserWidgetService>();
+builder.Services.AddScoped<WidgetCategoriesRepository, WidgetCategoriesRepository>();
+
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(options =>
