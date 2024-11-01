@@ -1,0 +1,69 @@
+﻿@model PAWPMD.Models.User
+
+<section style="background-color: #f7f7f7;">
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="breadcrumb-item"><a asp-area="" asp-controller="UserProfile" asp-route-id="@Model.UserId" asp-action="Index">User Profile</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="mb-4">Edit Profile</h4>
+
+                        <form asp-action="Edit" asp-controller="UserProfile">
+                            <input type="hidden"  asp-for="UserId"/>
+                            <input type="hidden" asp-for="Email"/>
+                            <input type="hidden" asp-for="Password"/>
+                            <div class="row mb-3">
+                                <label for="Name" class="col-sm-3 col-form-label"><strong>First Name</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="Name" class="form-control" placeholder="First Name" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="LastName" class="col-sm-3 col-form-label"><strong>Last Name</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="LastName" class="form-control" placeholder="Last Name" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="SecondLastName" class="col-sm-3 col-form-label"><strong>Second Last Name</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="SecondLastName" class="form-control" placeholder="Second Last Name" />
+                                    <span asp-validation-for="SecondLastName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="Username" class="col-sm-3 col-form-label"><strong>Username</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="Username" class="form-control" placeholder="Username" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary mx-1">Save Changes</button>
+                                <a asp-area="" asp-controller="UserProfile" asp-action="Index" asp-route-id="@Model.UserId" class="btn btn-secondary mx-1">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

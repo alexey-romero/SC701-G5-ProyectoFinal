@@ -1,0 +1,57 @@
+﻿@model PAWPMD.Models.Models.LoginRequest
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h3>Sign In</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("SignIn", "Auth", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                      
+                        @if (!Model.IsValid())
+                        {
+                            <div class="alert alert-danger text-center">
+                                Please provide either a username or an email.
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Username, "Username")
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Enter username" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.Email, "Email")
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Enter email" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.Password, "Password")
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter password" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        @if (ViewData.ModelState.ContainsKey(string.Empty) && ViewData.ModelState[string.Empty]?.Errors.Any() == true)
+                        {
+                            <div class="alert alert-danger text-center">
+                                @ViewData.ModelState[string.Empty].Errors.FirstOrDefault()?.ErrorMessage
+                            </div>
+                        }
+                        <div class="d-flex justify-content-center mt-4">
+                            <button type="submit" class="btn btn-primary px-5">Sign In</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

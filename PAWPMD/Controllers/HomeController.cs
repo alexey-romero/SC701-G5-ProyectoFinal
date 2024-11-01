@@ -15,6 +15,8 @@ namespace MediaDashboard.Controllers
 
         public IActionResult Index()
         {
+            var roles = HttpContext.Items["UserRoles"] as List<string> ?? new List<string>();
+            ViewBag.Roles = roles;
             return View();
         }
 

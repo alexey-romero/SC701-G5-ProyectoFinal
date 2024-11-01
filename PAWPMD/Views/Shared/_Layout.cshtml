@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var userRoles = Context.Session.GetString("UserRoles")?.Split(',') ?? new string[0];
+    var userIdString = Context.Session.GetString("Id");
+    int userId = int.TryParse(userIdString, out int parsedUserId) ? parsedUserId : 0;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,6 +31,30 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @{
+                            if(userRoles.Length > 0 && userRoles.Contains("User"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img loading="lazy" src="https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small_2x/profile-icon-design-free-vector.jpg" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%;">
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                                            <li><a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="Index" asp-route-id="@userId">Profile</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li> <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignIn">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignUp">Sign Up</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

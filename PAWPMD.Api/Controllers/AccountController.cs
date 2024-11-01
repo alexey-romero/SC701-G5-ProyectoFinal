@@ -43,7 +43,15 @@ namespace PAWPMD.Api.Controllers
 
                 var token = _jwtTokenGenerator.Generate(loginResponse);
 
-                return Ok(token);
+                var userDto = new UserDTO
+                {
+                    Email = loginResponse.User.Email,
+                    LastName = loginResponse.User.LastName,
+                    Name = loginResponse.User.Name,
+                    Token = token
+                };
+
+                return Ok(userDto);
             }
             catch (Exception ex)
             {
