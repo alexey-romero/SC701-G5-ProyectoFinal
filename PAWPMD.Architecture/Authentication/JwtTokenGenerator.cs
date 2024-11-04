@@ -57,12 +57,13 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
         // Create claims
         var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, loginResponse.User.Username),
-            new Claim(ClaimTypes.Email, loginResponse.User.Email),
-            new Claim(ClaimTypes.GivenName, loginResponse.User.Name),
-            new Claim(ClaimTypes.Surname, loginResponse.User.LastName)
-        };
+            {
+                new Claim(ClaimTypes.NameIdentifier, loginResponse.User.UserId.ToString()),
+                new Claim(ClaimTypes.Name, loginResponse.User.Username),
+                new Claim(ClaimTypes.Email, loginResponse.User.Email),
+                new Claim(ClaimTypes.GivenName, loginResponse.User.Name),
+                new Claim(ClaimTypes.Surname, loginResponse.User.LastName)
+            };
 
         // Add a claim for each role the user has
         foreach (var role in loginResponse.Roles)

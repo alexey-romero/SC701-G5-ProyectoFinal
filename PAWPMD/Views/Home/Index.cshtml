@@ -1,8 +1,28 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var roles = ViewBag.Roles as List<string> ?? new List<string>();
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@if (roles.Count > 0)
+{
+    <div class="text-center">
+        <h3>Your Roles:</h3>
+        <ul>
+            @foreach (var role in roles)
+            {
+                <li>@role</li>
+            }
+        </ul>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <p>You have no roles assigned.</p>
+    </div>
+}

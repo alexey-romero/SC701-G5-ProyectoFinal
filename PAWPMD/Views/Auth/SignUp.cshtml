@@ -1,0 +1,69 @@
+﻿@model PAWPMD.Models.Models.RegisterRequest
+
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h3>Sign Up</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("SignUp", "Auth", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name)
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter your name" })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.LastName)
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", placeholder = "Enter your last name" })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.SecondLastName)
+                            @Html.TextBoxFor(model => model.SecondLastName, new { @class = "form-control", placeholder = "Enter your second last name (optional)" })
+                            @Html.ValidationMessageFor(model => model.SecondLastName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.Username)
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Enter your username" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.Email)
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Enter your email" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.Password)
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mt-3">
+                            @Html.LabelFor(model => model.ConfirmPassword)
+                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm your password" })
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <button type="submit" class="btn btn-primary px-5">Register</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

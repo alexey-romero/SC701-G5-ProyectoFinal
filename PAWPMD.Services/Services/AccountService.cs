@@ -119,8 +119,6 @@ namespace PAWPMD.Service.Services
                 throw new PAWPMDException("Invalid password");
             }
 
-
-
             var userRoles = await _userRoleService.GetUserRolesByUserIdAsync(user.UserId);
 
             var roles = new List<Role>();
