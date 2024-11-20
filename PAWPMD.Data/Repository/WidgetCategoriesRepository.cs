@@ -25,14 +25,14 @@ namespace PAWPMD.Data.Repository
         /// </summary>
         /// <param name="id">The ID of the WidgetCategory to retrieve.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the WidgetCategory entity, or null if the WidgetCategory is not found.</returns>
-        Task<WidgetCategory> GetWidgetCategory(int id);
+        Task<WidgetCategory> GetWidgetCategoryAsync(int id);
 
         /// <summary>
         /// Asynchronously saves a WidgetCategory entity in the repository. If the WidgetCategory already exists, it is updated; otherwise, it is created.
         /// </summary>
         /// <param name="WidgetCategory">The WidgetCategory entity to save.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the saved or updated WidgetCategory entity.</returns>
-        Task<WidgetCategory> SaveWidgetCategory(WidgetCategory widgetCategory);
+        Task<WidgetCategory> SaveWidgetCategoryAsync(WidgetCategory widgetCategory);
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ namespace PAWPMD.Data.Repository
         /// </summary>
         /// <param name="WidgetCategory">The WidgetCategory entity to save or update.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the saved or updated WidgetCategory entity.</returns>
-        public async Task<WidgetCategory> SaveWidgetCategory(WidgetCategory widgetCategory)
+        public async Task<WidgetCategory> SaveWidgetCategoryAsync(WidgetCategory widgetCategory)
         {
             var exists = widgetCategory.CategoryId != null && widgetCategory.CategoryId > 0;
             if (exists)
@@ -72,7 +72,7 @@ namespace PAWPMD.Data.Repository
         /// </summary>
         /// <param name="id">The ID of the WidgetCategory to retrieve.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the WidgetCategory entity, or null if the WidgetCategory is not found.</returns>
-        public async Task<WidgetCategory> GetWidgetCategory(int id)
+        public async Task<WidgetCategory> GetWidgetCategoryAsync(int id)
         {
             var widgetCategories = await ReadAsync();
             return widgetCategories.SingleOrDefault(u => u.CategoryId == id);
