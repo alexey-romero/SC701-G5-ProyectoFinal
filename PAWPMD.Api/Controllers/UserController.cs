@@ -10,19 +10,12 @@ namespace PAWPMD.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController(IUserService userService) : Controller
     {
+        private readonly IUserService _userService = userService;
 
-        private readonly IUserService _userService;
-      
-
-        public UserController(IUserService userService)
-        {
-             _userService = userService;
-        }
-
-       [HttpGet("{id}", Name = "GetUser")]
-       public async Task<IActionResult> GetUserById(int id)
+        [HttpGet("{id}", Name = "GetUser")]
+        public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
@@ -34,6 +27,20 @@ namespace PAWPMD.Api.Controllers
                 return Ok(user);
             }
             catch (Exception ex) { 
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("all", Name = "GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await _userService.GetAllUsers();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
