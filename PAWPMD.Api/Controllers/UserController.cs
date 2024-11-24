@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using PAWPMD.Architecture.Authentication;
-using PAWPMD.Architecture.Exceptions;
+﻿using Microsoft.AspNetCore.Mvc;
 using PAWPMD.Models;
-using PAWPMD.Models.Models;
 using PAWPMD.Service.Services;
 
 namespace PAWPMD.Api.Controllers
