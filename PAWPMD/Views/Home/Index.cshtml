@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<PAWPMD.Models.WidgetCategory>
+
+@{
     ViewData["Title"] = "Home Page";
     var roles = ViewBag.Roles as List<string> ?? new List<string>();
 }
@@ -10,7 +12,7 @@
 
 @if (roles.Count > 0)
 {
-    <div class="text-center">
+    <div>
         <h3>Your Roles:</h3>
         <ul>
             @foreach (var role in roles)
@@ -26,3 +28,45 @@ else
         <p>You have no roles assigned.</p>
     </div>
 }
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+    <button type="button" class="btn btn-primary" onclick="loadWidgetCategories()">
+        <i class="bi bi-plus"></i> Add new widget
+    </button>
+</div>
+
+<div class="modal fade" id="widgetModal" tabindex="-1" aria-labelledby="widgetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="widgetModalLabel">Select a Widget Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="widgetModalBody">
+                <!-- Espacio donde se generan las cards con los widget categories - Alexey -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadWidgetCategories() {
+        fetch('/Widget/GetAllWidgetCategories')
+            .then(response => response.text())
+            .then(html => {
+                const modalBody = document.getElementById('widgetModalBody');
+                const modal = new bootstrap.Modal(document.getElementById('widgetModal'));
+
+                if (modalBody) {
+                    modalBody.innerHTML = html;
+                    modal.show();
+                } else {
+                    console.error("Modal body element not found.");
+                }
+            })
+            .catch(error => console.error('Error loading widget categories:', error));
+    }
+</script>

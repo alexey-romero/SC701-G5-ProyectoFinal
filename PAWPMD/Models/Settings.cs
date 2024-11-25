@@ -10,6 +10,8 @@
         public string SignUpApi { get; set; }
 
         public string UserApi { get; set; }
+
+        public string WidgetCategoriesApi { get; set; }
     }
 
     public class LogginSettings

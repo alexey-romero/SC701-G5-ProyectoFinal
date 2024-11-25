@@ -5,12 +5,12 @@ using PAWPMD.Service.Services;
 namespace PAWPMD.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class WidgetCategortiesController : Controller
+[Route("api/[controller]")]
+public class WidgetCategoriesController : Controller
 {
-    private readonly WidgetCategoriesService _widgetCategoriesService;
+    private readonly IWidgetCategoriesService _widgetCategoriesService;
 
-    public WidgetCategortiesController(WidgetCategoriesService widgetCategoriesService)
+    public WidgetCategoriesController(IWidgetCategoriesService widgetCategoriesService)
     {
         _widgetCategoriesService = widgetCategoriesService;
     }

@@ -15,19 +15,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 builder.Services.AddScoped<IPasswordHasher , PasswordHasher>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
+builder.Services.AddScoped<IWidgetService, WidgetService>();
 //builder.Services.AddScoped<UserWidgetRepository, UserWidgetRepository>();
 //builder.Services.AddScoped<IUserWidgetService, UserWidgetService>();
-//builder.Services.AddScoped<WidgetCategoriesRepository, WidgetCategoriesRepository>();
+builder.Services.AddScoped<IWidgetCategoriesRepository, WidgetCategoriesRepository>();
+builder.Services.AddScoped<IWidgetCategoriesService, WidgetCategoriesService>();
 //builder.Services.AddScoped<WidgetCategoryRepository, WidgetCategoryRepository>();
-//builder.Services.AddScoped<WidgetCategoriesService, WidgetCategoriesService>();
-//builder.Services.AddScoped<WidgetRepository, WidgetRepository>();
+
+
 
 
 

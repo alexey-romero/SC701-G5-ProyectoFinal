@@ -1,5 +1,6 @@
 using MediaDashboard.Models;
 using Microsoft.AspNetCore.Mvc;
+using PAWPMD.Models;
 using System.Diagnostics;
 
 namespace MediaDashboard.Controllers
