@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PAWPMD.Architecture.Authentication;
+using PAWPMD.Architecture.Factory;
 using PAWPMD.Data.Repository;
 using PAWPMD.Service.Services;
 using System.Text;
@@ -21,6 +22,21 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+<<<<<<< HEAD
+builder.Services.AddScoped<IWidgetService, WidgetService>();
+builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
+builder.Services.AddScoped<IWidgetFactory, WidgetFactory>();
+builder.Services.AddScoped<IWidgetTableService, WidgetTableService>();
+builder.Services.AddScoped<IWidgetImageService, WidgetImageService>();
+builder.Services.AddScoped<IWidgetVideoService, WidgetVideoService>();
+builder.Services.AddScoped<IWidgetImageRepository, WidgetImageRepository>();
+builder.Services.AddScoped<IWidgetTableRepository, WidgetTableRepository>();
+builder.Services.AddScoped<IWidgetVideoRepository, WidgetVideoRepository>();
+builder.Services.AddScoped<IUserWidgetService, UserWidgetService>();
+builder.Services.AddScoped<IUserWidgetRepository, UserWidgetRepository>();
+builder.Services.AddScoped<IWidgetSettingService, WidgetSettingService>();
+builder.Services.AddScoped<IWidgetSettingRepository, WidgetSettingRepository>();
+=======
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
 builder.Services.AddScoped<IWidgetService, WidgetService>();
@@ -33,6 +49,7 @@ builder.Services.AddScoped<IWidgetCategoriesService, WidgetCategoriesService>();
 
 
 
+>>>>>>> 8c6e70435f981e8d694c3ad8b0e5cb5e99ec6bef
 
 builder.Services.AddHttpContextAccessor();
 

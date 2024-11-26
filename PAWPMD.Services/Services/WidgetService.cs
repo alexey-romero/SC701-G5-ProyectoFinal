@@ -1,122 +1,155 @@
-﻿using PAWPMD.Data.Repository;
+﻿using PAWPMD.Architecture.Exceptions;
+using PAWPMD.Architecture.Factory;
+using PAWPMD.Data.Repository;
 using PAWPMD.Models;
+using PAWPMD.Models.DTOS;
+using PAWPMD.Service.Mappers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PAWPMD.Service.Services
 {
-
-
     /// <summary>
-    /// Defines the contract for user-related operations within the service layer.
+    /// Interface defining the contract for widget services.
     /// </summary>
     public interface IWidgetService
     {
         /// <summary>
-        /// Asynchronously deletes a user from the system.
+        /// Asynchronously deletes a widget.
         /// </summary>
-        /// <param name="user">The user entity to be deleted.</param>
+        /// <param name="widget">The widget entity to be deleted.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a boolean indicating success.</returns>
-        Task<bool> DeleteUser(User user);
+        Task<bool> DeleteWidgetAsync(Widget widget);
 
         /// <summary>
-        /// Asynchronously retrieves all users from the system.
+        /// Asynchronously retrieves all widgets from the system.
         /// </summary>
-        /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of users.</returns>
-        Task<IEnumerable<User>> GetAllUsers();
+        /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of widgets.</returns>
+        Task<IEnumerable<Widget>> GetAllWidgetsAsync();
 
         /// <summary>
-        /// Asynchronously retrieves a user by their unique identifier.
+        /// Asynchronously retrieves a widget by its unique identifier.
         /// </summary>
-        /// <param name="id">The ID of the user to retrieve.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the user entity if found, otherwise null.</returns>
-        Task<User> GetUser(int id);
-
+        /// <param name="id">The ID of the widget to retrieve.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the widget entity if found, otherwise null.</returns>
+        Task<Widget> GetWidgetByIdAsync(int id);
 
         /// <summary>
-        /// Retrieves a user by their username.
+        /// Asynchronously saves a widget based on the provided widget data and user ID.
         /// </summary>
-        /// <param name="username">The username to search for.</param>
-        /// <returns>A <see cref="User"/> object if found; otherwise, null.</returns>
-        Task<User> GetUserByUsernameAsync(string username);
-
-
-        /// <summary>
-        /// Retrieves a user by their email address.
-        /// </summary>
-        /// <param name="email">The email address to search for.</param>
-        /// <returns>A <see cref="User"/> object if found; otherwise, null.</returns>
-        Task<User> GetUserByEmailAsync(string email);
-
-
-        /// <summary>
-        /// Asynchronously saves a user entity. If the user already exists, it updates the user; otherwise, it creates a new user.
-        /// </summary>
-        /// <param name="user">The user entity to save or update.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the saved or updated user entity.</returns>
-        Task<User> SaveUser(User user);
+        /// <param name="widgetDTO">The widget data transfer object containing widget details.</param>
+        /// <param name="userId">The ID of the user associated with the widget.</param>
+        /// <returns>A task that represents the asynchronous operation, returning the saved widget.</returns>
+        Task <Widget> SaveWidgetAsync(WidgetRequestDTO widgetRequestDTO, int? userId, int? widgetId);
     }
 
     /// <summary>
-    /// Implements the user service which handles user-related operations, interacting with the repository layer.
+    /// Service class for managing widgets.
     /// </summary>
     public class WidgetService : IWidgetService
     {
         private readonly IWidgetRepository _widgetRepository;
+        private readonly IWidgetFactory _widgetFactory;
+        private readonly IWidgetVideoService _widgetVideoService;
+        private readonly IWidgetTableService _widgetTableService;
+        private readonly IWidgetImageService _widgetImageService;
 
-        public WidgetService(IWidgetRepository widgetRepository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WidgetService"/> class.
+        /// </summary>
+        /// <param name="widgetRepository">The widget repository.</param>
+        /// <param name="widgetFactory">The widget factory.</param>
+        public WidgetService(
+                IWidgetRepository widgetRepository , 
+                IWidgetVideoService widgetVideoService,
+                IWidgetTableService widgetTableService,
+                IWidgetImageService widgetImageService,
+                IWidgetFactory widgetFactory
+            )
         {
             _widgetRepository = widgetRepository;
+            _widgetFactory = widgetFactory;
+            _widgetVideoService = widgetVideoService;
+            _widgetTableService = widgetTableService;
+            _widgetImageService = widgetImageService;
         }
 
-        public async Task<Widget> GetWidget(int id)
+        /// <summary>
+        /// Asynchronously saves a widget based on the specified type and user.
+        /// </summary>
+        /// <param name="widgetDTO">The data transfer object containing widget details.</param>
+        /// <param name="userId">The ID of the user creating the widget.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the saved widget entity.</returns>
+        /// <exception cref="PAWPMDException">Thrown when the widget type is invalid.</exception>
+        public async Task<Widget> SaveWidgetAsync(WidgetRequestDTO widgetDTO, int? userId, int? widgetId)
+        {
+
+            Widget widget;
+
+            if (widgetId.HasValue && widgetId > 0)
+            { 
+                widget = await _widgetRepository.GetWidget(widgetId.Value);
+                if(widget == null)
+                {
+                     throw new PAWPMDException("Widget not found");
+                }
+            }
+            else
+            {
+                // Create a new widget instance based on the specified type
+                widget = _widgetFactory.Create(widgetDTO.Type);
+            }
+
+
+            // Prepare the widget data using the provided DTO and user ID
+             var mapWidget = await WidgetMapper.PrepareWidgetDataAsync(widget, widgetDTO, userId);
+
+            // Save the widget based on its type
+            switch (widgetDTO.Type)
+            {
+                case "TableWidget":
+                    return await _widgetTableService.SaveWidgetTableAsync(widget, widgetDTO);
+
+                case "ImageWidget":
+                    return await _widgetImageService.SaveWidgetImageAsync(mapWidget, widgetDTO);
+
+                case "VideoWidget":
+                    return await _widgetVideoService.SaveVideoWidgetAsync(widget, widgetDTO);
+
+                default:
+                    throw new PAWPMDException($"Invalid widget type: {widgetDTO.Type}");
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously retrieves a widget by its unique identifier.
+        /// </summary>
+        /// <param name="id">The ID of the widget to retrieve.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the widget entity if found, otherwise null.</returns>
+        public async Task<Widget> GetWidgetByIdAsync(int id)
+
         {
             return await _widgetRepository.GetWidget(id);
         }
 
-        public async Task<Widget> SaveWidget(Widget widget)
-        {
-            return await _widgetRepository.SaveWidget(widget);
-        }
-
-        public async Task<bool> DeleteWidgetAsync(Widget widget)
-        {
-            return await _widgetRepository.DeleteWidgetAsync(widget);
-        }
-
+        /// <summary>
+        /// Asynchronously retrieves all widgets from the system.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of widgets.</returns>
         public async Task<IEnumerable<Widget>> GetAllWidgetsAsync()
         {
             return await _widgetRepository.GetAllWidgetsAsync();
         }
 
-        public Task<bool> DeleteUser(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<User>> GetAllUsers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetUser(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetUserByUsernameAsync(string username)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetUserByEmailAsync(string email)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> SaveUser(User user)
-        {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Asynchronously deletes a widget from the system.
+        /// </summary>
+        /// <param name="widget">The widget entity to be deleted.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result is a boolean indicating success.</returns>
+        public async Task<bool> DeleteWidgetAsync(Widget widget)
+        {   
+            return await _widgetRepository.DeleteWidgetAsync(widget);
         }
     }
 }
+

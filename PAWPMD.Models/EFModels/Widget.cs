@@ -24,4 +24,10 @@ public partial class Widget
     public virtual ICollection<UserWidget> UserWidgets { get; set; } = new List<UserWidget>();
 
     public virtual ICollection<WidgetCategory1> WidgetCategory1s { get; set; } = new List<WidgetCategory1>();
+
+    public virtual ICollection<WidgetImage> WidgetImages { get; set; } = new List<WidgetImage>();
+
+    public virtual ICollection<WidgetTable> WidgetTables { get; set; } = new List<WidgetTable>();
+
+    public virtual ICollection<WidgetVideo> WidgetVideos { get; set; } = new List<WidgetVideo>();
 }
