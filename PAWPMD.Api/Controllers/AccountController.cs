@@ -11,7 +11,6 @@ namespace PAWPMD.Api.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-
         private readonly IAccountService _accountService;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
 

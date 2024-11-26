@@ -1,0 +1,15 @@
+﻿@model IEnumerable<PAWPMD.Models.WidgetCategory>
+
+<div class="row">
+    @foreach (var category in Model)
+    {
+        <div class="col-12 col-sm-6 col-md-4 mb-3">
+            <div class="card text-center" style="cursor: pointer;" onclick="handleCardClick('@category.Name')">
+                <div class="card-body">
+                    <h5 class="card-title">@category.Name</h5>
+                    <p class="card-text">ID: @category.CategoryId</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
