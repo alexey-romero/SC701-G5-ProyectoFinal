@@ -33,6 +33,12 @@ namespace PAWPMD.Data.Repository
         /// <param name="User Widget">The UserWidget entity to save.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the saved or updated UserWidget entity.</returns>
         Task<UserWidget> SaveUserWidget(UserWidget userWidget);
+
+        /// <summary>
+        /// Asynchronously retrieves a UserWidget by Widget ID from the repository.
+        /// </summary>
+        /// <param name="widgetId">The ID of the Widget to retrieve.</param>
+        Task<UserWidget> GetUserWidgetByWidgetIdAsync(int widgetId);
     }
 
     /// <summary>
@@ -85,6 +91,16 @@ namespace PAWPMD.Data.Repository
         public async Task<IEnumerable<UserWidget>> GetAllUserWidgetsAsync()
         {
             return await ReadAsync();
+        }
+
+        /// <summary>
+        /// Asynchronously retrieves a UserWidget by Widget ID from the repository.
+        /// </summary>
+        /// <param name="widgetId">The ID of the Widget to retrieve.</param>
+        public async Task<UserWidget> GetUserWidgetByWidgetIdAsync(int widgetId)
+        {
+            var userWidgets = await ReadAsync();
+            return userWidgets.SingleOrDefault(u => u.WidgetId == widgetId);
         }
     }
 }

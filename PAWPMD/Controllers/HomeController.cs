@@ -1,6 +1,7 @@
 using MediaDashboard.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 
 namespace MediaDashboard.Controllers
 {
@@ -17,9 +18,10 @@ namespace MediaDashboard.Controllers
         {
             var roles = HttpContext.Items["UserRoles"] as List<string> ?? new List<string>();
             ViewBag.Roles = roles;
+            
             return View();
         }
-
+         
         public IActionResult Privacy()
         {
             return View();

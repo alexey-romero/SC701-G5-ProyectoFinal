@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace PAWPMD.Models;
+namespace PAWPMD.Models.EFModels;
 
 public partial class Pawp1Context : DbContext
 {
@@ -14,8 +15,6 @@ public partial class Pawp1Context : DbContext
         : base(options)
     {
     }
-
-    public virtual DbSet<Configuration> Configurations { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -31,33 +30,20 @@ public partial class Pawp1Context : DbContext
 
     public virtual DbSet<WidgetCategory1> WidgetCategories1 { get; set; }
 
+    public virtual DbSet<WidgetImage> WidgetImages { get; set; }
+
+    public virtual DbSet<WidgetSetting> WidgetSettings { get; set; }
+
+    public virtual DbSet<WidgetTable> WidgetTables { get; set; }
+
+    public virtual DbSet<WidgetVideo> WidgetVideos { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=DESKTOP-N37CUPH;Database=PAWP1;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Configuration>(entity =>
-        {
-            entity.HasKey(e => e.ConfigurationId).HasName("PK__Configur__95AA53BB48886DD3");
-
-            entity.Property(e => e.ApiKey).HasMaxLength(255);
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Height).HasDefaultValue(150);
-            entity.Property(e => e.RefreshInterval).HasDefaultValue(60);
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Width).HasDefaultValue(300);
-
-            entity.HasOne(d => d.UserWidget).WithMany(p => p.Configurations)
-                .HasForeignKey(d => d.UserWidgetId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Configura__UserW__5441852A");
-        });
-
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A10228A4C");
@@ -178,7 +164,75 @@ public partial class Pawp1Context : DbContext
                 .HasConstraintName("FK__Widget_Ca__Widge__59FA5E80");
         });
 
+        modelBuilder.Entity<WidgetImage>(entity =>
+        {
+            entity.ToTable("Widget_Image");
+
+            entity.HasIndex(e => e.WidgetId, "IX_Widget_Image_WidgetId");
+
+            entity.Property(e => e.ImageAltText).HasMaxLength(255);
+            entity.Property(e => e.ImageTitle).HasMaxLength(255);
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
+            entity.Property(e => e.LastModified).HasColumnType("datetime");
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.Id)
+            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            entity.HasOne(d => d.Widget).WithMany(p => p.WidgetImages)
+                .HasForeignKey(d => d.WidgetId)
+                .HasConstraintName("FK_Widget_Image_Widgets");
+        });
+
+        modelBuilder.Entity<WidgetSetting>(entity =>
+        {
+            entity.HasKey(e => e.WidgetSettingsId).HasName("PK__WidgetSe__C6BCB3C72DD79C30");
+
+            entity.HasOne(d => d.UserWidget).WithMany(p => p.WidgetSettings)
+                .HasForeignKey(d => d.UserWidgetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WidgetSet__UserW__6FE99F9F");
+        });
+
+        modelBuilder.Entity<WidgetTable>(entity =>
+        {
+            entity.ToTable("Widget_Table");
+
+            entity.HasIndex(e => e.WidgetId, "IX_Widget_Table_WidgetId");
+
+            entity.Property(e => e.Columns).HasMaxLength(255);
+            entity.Property(e => e.Headers).HasMaxLength(255);
+            entity.Property(e => e.LastModified).HasColumnType("datetime");
+            entity.Property(e => e.Rows).HasMaxLength(255);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.Id)
+            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            entity.HasOne(d => d.Widget).WithMany(p => p.WidgetTables)
+                .HasForeignKey(d => d.WidgetId)
+                .HasConstraintName("FK_Widget_Table_Widgets");
+        });
+
+        modelBuilder.Entity<WidgetVideo>(entity =>
+        {
+            entity.ToTable("Widget_Video");
+
+            entity.HasIndex(e => e.WidgetId, "IX_Widget_Video_WidgetId");
+
+            entity.Property(e => e.LastModified).HasColumnType("datetime");
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.VideoAltText).HasMaxLength(255);
+            entity.Property(e => e.VideoTitle).HasMaxLength(255);
+            entity.Property(e => e.VideoUrl).HasMaxLength(255);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.Id)
+          .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            entity.HasOne(d => d.Widget).WithMany(p => p.WidgetVideos)
+                .HasForeignKey(d => d.WidgetId)
+                .HasConstraintName("FK_Widget_Video_Widgets");
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

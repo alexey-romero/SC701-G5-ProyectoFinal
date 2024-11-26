@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PAWPMD.Architecture\PAWPMD.Architecture.csproj" />
     <ProjectReference Include="..\PAWPMD.Data\PAWPMD.Data.csproj" />
     <ProjectReference Include="..\PAWPMD.Models\PAWPMD.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappers\NewFolder1\" />
   </ItemGroup>
 
 </Project>
