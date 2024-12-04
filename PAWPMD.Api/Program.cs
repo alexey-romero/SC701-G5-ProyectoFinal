@@ -22,7 +22,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-<<<<<<< HEAD
 builder.Services.AddScoped<IWidgetService, WidgetService>();
 builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
 builder.Services.AddScoped<IWidgetFactory, WidgetFactory>();
@@ -36,7 +35,6 @@ builder.Services.AddScoped<IUserWidgetService, UserWidgetService>();
 builder.Services.AddScoped<IUserWidgetRepository, UserWidgetRepository>();
 builder.Services.AddScoped<IWidgetSettingService, WidgetSettingService>();
 builder.Services.AddScoped<IWidgetSettingRepository, WidgetSettingRepository>();
-=======
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
 builder.Services.AddScoped<IWidgetService, WidgetService>();
@@ -45,11 +43,6 @@ builder.Services.AddScoped<IWidgetService, WidgetService>();
 builder.Services.AddScoped<IWidgetCategoriesRepository, WidgetCategoriesRepository>();
 builder.Services.AddScoped<IWidgetCategoriesService, WidgetCategoriesService>();
 //builder.Services.AddScoped<WidgetCategoryRepository, WidgetCategoryRepository>();
-
-
-
-
->>>>>>> 8c6e70435f981e8d694c3ad8b0e5cb5e99ec6bef
 
 builder.Services.AddHttpContextAccessor();
 
