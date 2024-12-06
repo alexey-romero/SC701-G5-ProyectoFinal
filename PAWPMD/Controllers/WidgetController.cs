@@ -5,6 +5,7 @@ using PAWPMD.Architecture;
 using PAWPMD.Models;
 using PAWPMD.Mvc.Models;
 
+
 namespace PAWPMD.Mvc.Controllers
 {
     public class WidgetController : Controller
@@ -39,6 +40,42 @@ namespace PAWPMD.Mvc.Controllers
                 return Content("<p>Error loading categories. Please try again later.</p>");
             }
         }
+
+
+        private class DeleteResponse
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
+        }
+
+        public async Task<IActionResult> DeleteWidgetCategories(int id)
+        {
+            try
+            {
+                // Realizar la solicitud DELETE interactuando con el WidgetCategoriesApi
+                var jsonResponse = await _restProvider.DeleteAsync($"{_appSettings.Value.WidgetCategoriesApi}/{id}", null);
+
+                //Refenrencia mis datos de DeleteResponse
+                var response = JsonProvider.DeserializeSimple<DeleteResponse>(jsonResponse);
+
+                if (response != null && response.Success)
+                {
+                    _logger.LogInformation($"Widget category with ID {id} was successfully deleted.");
+                    return Json(new { success = true, message = "Category deleted successfully." });
+                }
+                else
+                {
+                    _logger.LogWarning($"Failed to delete widget category with ID {id}. Service returned failure.");
+                    return Json(new { success = false, message = "Failed to delete category." });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error occurred while deleting widget category with ID {id}.");
+                return Json(new { success = false, message = "An error occurred while trying to delete the category. Please try again later." });
+            }
+        }
+
 
 
     }

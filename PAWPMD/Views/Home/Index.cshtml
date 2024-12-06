@@ -5,45 +5,48 @@
     var roles = ViewBag.Roles as List<string> ?? new List<string>();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-5">
+    <h1 class="display-4 text-primary">Bienvenido</h1>
 </div>
 
 @if (roles.Count > 0)
 {
-    <div>
+    <div class="mt-4">
         <h3>Your Roles:</h3>
-        <ul>
+        <ul class="list-group">
             @foreach (var role in roles)
             {
-                <li>@role</li>
+                <li class="list-group-item">@role</li>
             }
         </ul>
     </div>
 }
 else
 {
-    <div class="text-center">
-        <p>You have no roles assigned.</p>
+    <div class="text-center mt-4">
+        <p class="text-muted">You have no roles assigned.</p>
     </div>
 }
 
-<div style="display: flex; justify-content: center; align-items: center; height: 100px;">
-    <button type="button" class="btn btn-primary" onclick="loadWidgetCategories()">
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <button type="button" class="btn btn-danger btn-lg mx-2" onclick="deleteWidgetCategory(prompt('Enter Widget ID to delete:'))">
+        <i class="bi bi-trash"></i> Delete Widget
+    </button>
+    <button type="button" class="btn btn-primary btn-lg mx-2" onclick="loadWidgetCategories()">
         <i class="bi bi-plus"></i> Add new widget
     </button>
 </div>
 
+<!-- Modal -->
 <div class="modal fade" id="widgetModal" tabindex="-1" aria-labelledby="widgetModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="widgetModalLabel">Select a Widget Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="widgetModalBody">
-                <!-- Espacio donde se generan las cards con los widget categories - Alexey -->
+                <!-- Content dynamically loaded here -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -68,5 +71,44 @@ else
                 }
             })
             .catch(error => console.error('Error loading widget categories:', error));
+    }
+
+    function deleteWidgetCategory(widgetId) {
+        if (!widgetId) {
+            alert("Widget ID is required to delete.");
+            return;
+        }
+
+        fetch(`/Widget/DeleteWidgetCategory?id=${widgetId}`, { method: 'DELETE' })
+            .then(response => response.json())
+            .then(result => {
+                const modalBody = document.getElementById('widgetModalBody');
+                const modal = new bootstrap.Modal(document.getElementById('widgetModal'));
+
+                if (result.success) {
+                    if (modalBody) {
+                        modalBody.innerHTML = `<div class="alert alert-success">Widget with ID ${widgetId} was successfully deleted.</div>`;
+                        modal.show();
+                    } else {
+                        console.error("Modal body element not found.");
+                    }
+                } else {
+                    if (modalBody) {
+                        modalBody.innerHTML = `<div class="alert alert-danger">Failed to delete widget with ID ${widgetId}. ${result.message || ''}</div>`;
+                        modal.show();
+                    } else {
+                        console.error("Modal body element not found.");
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting widget:', error);
+                const modalBody = document.getElementById('widgetModalBody');
+                if (modalBody) {
+                    modalBody.innerHTML = `<div class="alert alert-danger">An error occurred while deleting the widget.</div>`;
+                    const modal = new bootstrap.Modal(document.getElementById('widgetModal'));
+                    modal.show();
+                }
+            });
     }
 </script>
