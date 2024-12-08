@@ -35,7 +35,12 @@ else
     <button type="button" class="btn btn-primary btn-lg mx-2" onclick="loadWidgetCategories()">
         <i class="bi bi-plus"></i> Add new widget
     </button>
-</div>
+    <button type="button" class="btn btn-warning btn-lg mx-2" onclick="loadWidgetCategories()">
+        <i class="bi bi-pencil"></i> Edit Widget Category
+    </button>
+
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="widgetModal" tabindex="-1" aria-labelledby="widgetModalLabel" aria-hidden="true">
@@ -73,7 +78,13 @@ else
             .catch(error => console.error('Error loading widget categories:', error));
     }
 
-    function deleteWidgetCategory(widgetId) {
+        //Al seleccionar una de las categorias, redirecciona el usuario a la pagina de editar categoria
+        function handleCardClick(categoryId) {
+            window.location.href = `/Widget/Edit/${categoryId}`;
+        }
+
+
+        function deleteWidgetCategory(widgetId) {
         if (!widgetId) {
             alert("Widget ID is required to delete.");
             return;

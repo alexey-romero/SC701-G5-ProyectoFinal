@@ -76,6 +76,51 @@ namespace PAWPMD.Mvc.Controllers
             }
         }
 
+        //Edit Category name
+        // Obtener el WidgetCategory para editar
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var jsonResponse = await _restProvider.GetAsync($"{_appSettings.Value.WidgetCategoriesApi}/{id}", $"{id}");
+            if (jsonResponse == null)
+                return NotFound();
+
+            var widgetCategory = JsonProvider.DeserializeSimple<WidgetCategory>(jsonResponse);
+            return View("_EditWidgetCategory", widgetCategory);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name")] WidgetCategory widgetCategory)
+        {
+            if (widgetCategory == null || id != widgetCategory.CategoryId)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var jsonResponse = await _restProvider.PutAsync($"{_appSettings.Value.WidgetCategoriesApi}/{id}", $"{id}", JsonProvider.Serialize(widgetCategory));
+                    if (jsonResponse == null)
+                        return NotFound();
+
+                    var updatedWidgetCategory = JsonProvider.DeserializeSimple<WidgetCategory>(jsonResponse);
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error updating widget category");
+                    return View(widgetCategory);
+                }
+            }
+
+            return View(widgetCategory);
+        }
+
+
+
 
 
     }
