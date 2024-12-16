@@ -17,8 +17,6 @@ namespace PAWPMD.Service.Mappers
                 {
                     UserId = userId,
                     WidgetId = widget.WidgetId,
-                    PositionX = widgetRequestDTO.UserWidget.PositionX,
-                    PositionY = widgetRequestDTO.UserWidget.PositionY,
                     IsFavorite = widgetRequestDTO.UserWidget.IsFavorite,
                     IsVisible = widgetRequestDTO.UserWidget.IsVisible,
                     CreatedAt = DateTime.Now
@@ -26,8 +24,7 @@ namespace PAWPMD.Service.Mappers
             }
             else 
             {
-                userWidget.PositionX = widgetRequestDTO.UserWidget.PositionX;
-                userWidget.PositionY = widgetRequestDTO.UserWidget.PositionY;
+  
                 userWidget.IsFavorite = widgetRequestDTO.UserWidget.IsFavorite;
                 userWidget.IsVisible = widgetRequestDTO.UserWidget.IsVisible;
             }

@@ -7,9 +7,7 @@ using PAWPMD.Service.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,13 +22,6 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 builder.Services.AddScoped<IWidgetService, WidgetService>();
 builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
-builder.Services.AddScoped<IWidgetFactory, WidgetFactory>();
-builder.Services.AddScoped<IWidgetTableService, WidgetTableService>();
-builder.Services.AddScoped<IWidgetImageService, WidgetImageService>();
-builder.Services.AddScoped<IWidgetVideoService, WidgetVideoService>();
-builder.Services.AddScoped<IWidgetImageRepository, WidgetImageRepository>();
-builder.Services.AddScoped<IWidgetTableRepository, WidgetTableRepository>();
-builder.Services.AddScoped<IWidgetVideoRepository, WidgetVideoRepository>();
 builder.Services.AddScoped<IUserWidgetService, UserWidgetService>();
 builder.Services.AddScoped<IUserWidgetRepository, UserWidgetRepository>();
 builder.Services.AddScoped<IWidgetSettingService, WidgetSettingService>();

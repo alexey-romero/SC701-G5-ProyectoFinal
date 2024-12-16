@@ -19,15 +19,9 @@ public partial class Widget
 
     public int? UserId { get; set; }
 
-    public virtual User? User { get; set; }
+    public int CategoryId { get; set; }
+
+    public virtual WidgetCategory Category { get; set; } = null!;
 
     public virtual ICollection<UserWidget> UserWidgets { get; set; } = new List<UserWidget>();
-
-    public virtual ICollection<WidgetCategory1> WidgetCategory1s { get; set; } = new List<WidgetCategory1>();
-
-    public virtual ICollection<WidgetImage> WidgetImages { get; set; } = new List<WidgetImage>();
-
-    public virtual ICollection<WidgetTable> WidgetTables { get; set; } = new List<WidgetTable>();
-
-    public virtual ICollection<WidgetVideo> WidgetVideos { get; set; } = new List<WidgetVideo>();
 }

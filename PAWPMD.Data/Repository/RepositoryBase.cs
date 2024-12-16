@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PAWPMD.Architecture.Exceptions;
 using PAWPMD.Models;
-using PAWPMD.Models.EFModels;
 
 namespace PAWPMD.Data.Repository
 {

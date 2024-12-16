@@ -9,5 +9,5 @@ public partial class WidgetCategory
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<WidgetCategory1> WidgetCategory1s { get; set; } = new List<WidgetCategory1>();
+    public virtual ICollection<Widget> Widgets { get; set; } = new List<Widget>();
 }

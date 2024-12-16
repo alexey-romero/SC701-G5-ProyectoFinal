@@ -49,29 +49,16 @@ namespace PAWPMD.Service.Services
     public class WidgetService : IWidgetService
     {
         private readonly IWidgetRepository _widgetRepository;
-        private readonly IWidgetFactory _widgetFactory;
-        private readonly IWidgetVideoService _widgetVideoService;
-        private readonly IWidgetTableService _widgetTableService;
-        private readonly IWidgetImageService _widgetImageService;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WidgetService"/> class.
         /// </summary>
         /// <param name="widgetRepository">The widget repository.</param>
         /// <param name="widgetFactory">The widget factory.</param>
         public WidgetService(
-                IWidgetRepository widgetRepository , 
-                IWidgetVideoService widgetVideoService,
-                IWidgetTableService widgetTableService,
-                IWidgetImageService widgetImageService,
-                IWidgetFactory widgetFactory
+                IWidgetRepository widgetRepository 
             )
         {
             _widgetRepository = widgetRepository;
-            _widgetFactory = widgetFactory;
-            _widgetVideoService = widgetVideoService;
-            _widgetTableService = widgetTableService;
-            _widgetImageService = widgetImageService;
         }
 
         /// <summary>
@@ -83,42 +70,22 @@ namespace PAWPMD.Service.Services
         /// <exception cref="PAWPMDException">Thrown when the widget type is invalid.</exception>
         public async Task<Widget> SaveWidgetAsync(WidgetRequestDTO widgetDTO, int? userId, int? widgetId)
         {
-
             Widget widget;
 
-            if (widgetId.HasValue && widgetId > 0)
-            { 
-                widget = await _widgetRepository.GetWidget(widgetId.Value);
-                if(widget == null)
+            if ( widgetId > 0)
+            {
+                int wigetIdParsed = widgetId.Value;
+                widget = await _widgetRepository.GetWidget(wigetIdParsed);
+                if (widget != null)
                 {
-                     throw new PAWPMDException("Widget not found");
+                    widget = await WidgetMapper.PrepareWidgetDataAsync(widget, widgetDTO, userId);
+                    return await _widgetRepository.SaveWidget(widget);
                 }
             }
-            else
-            {
-                // Create a new widget instance based on the specified type
-                widget = _widgetFactory.Create(widgetDTO.Type);
-            }
 
-
-            // Prepare the widget data using the provided DTO and user ID
-             var mapWidget = await WidgetMapper.PrepareWidgetDataAsync(widget, widgetDTO, userId);
-
-            // Save the widget based on its type
-            switch (widgetDTO.Type)
-            {
-                case "TableWidget":
-                    return await _widgetTableService.SaveWidgetTableAsync(widget, widgetDTO);
-
-                case "ImageWidget":
-                    return await _widgetImageService.SaveWidgetImageAsync(mapWidget, widgetDTO);
-
-                case "VideoWidget":
-                    return await _widgetVideoService.SaveVideoWidgetAsync(widget, widgetDTO);
-
-                default:
-                    throw new PAWPMDException($"Invalid widget type: {widgetDTO.Type}");
-            }
+            widget = new Widget();
+            widget = await WidgetMapper.PrepareWidgetDataAsync(widget, widgetDTO, userId);
+            return await _widgetRepository.SaveWidget(widget);
         }
 
         /// <summary>

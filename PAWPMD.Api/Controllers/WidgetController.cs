@@ -14,11 +14,13 @@ namespace PAWPMD.Api.Controllers
         private readonly IWidgetService _widgetService;
         private readonly IUserWidgetService _userWidgetService;
         private readonly IWidgetSettingService _widgetSettingService;
+    
         public WidgetController(IWidgetService widgetService, IUserWidgetService userWidgetService, IWidgetSettingService widgetSettingService)
         {
             _widgetService = widgetService;
             _userWidgetService = userWidgetService;
             _widgetSettingService = widgetSettingService;
+          
         }
 
         [HttpGet(Name = "Get Widgets")]
@@ -63,9 +65,6 @@ namespace PAWPMD.Api.Controllers
                 var widgetResponseDTO = new WidgetResponseDTO
                 {
                     Widget = new WidgetDTO(),
-                    Video = new WidgetVideoDTO(),
-                    Image = new WidgetImageDto(),
-                    Table = new WidgetTableDTO(),
                     UserWidget = new UserWidgetDTO(),
                     WidgetSetting = new WidgetSettingDTO()
                 };
@@ -96,15 +95,17 @@ namespace PAWPMD.Api.Controllers
                 // then we can save the WidgetSettings for each user 
                 var widgetSettings = await _widgetSettingService.SaveWidgetSettinsAsync(widgetRequestDTO, userWidget);
 
+
+
                 var widgetResponseDTO = new WidgetResponseDTO
                 {
                     Widget = new WidgetDTO(), 
-                    Video = new WidgetVideoDTO(),
-                    Image = new WidgetImageDto(),
-                    Table = new WidgetTableDTO(),
                     UserWidget = new UserWidgetDTO(),
                     WidgetSetting = new WidgetSettingDTO()
                 };
+
+                //we need to save the data of the categories that the widget has in db
+
 
                 var result = await WidgetDTOResponseMapper.PrepareWidgetDTOReponseDataAsync(widgetResponseDTO, widget, userWidget, widgetSettings);
 
@@ -137,9 +138,6 @@ namespace PAWPMD.Api.Controllers
                 var widgetResponseDTO = new WidgetResponseDTO
                 {
                     Widget = new WidgetDTO(),
-                    Video = new WidgetVideoDTO(),
-                    Image = new WidgetImageDto(),
-                    Table = new WidgetTableDTO(),
                     UserWidget = new UserWidgetDTO(),
                     WidgetSetting = new WidgetSettingDTO()
                 };
