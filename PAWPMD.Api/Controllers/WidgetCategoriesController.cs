@@ -34,7 +34,7 @@ public class WidgetCategoriesController : Controller
     }
 
     [HttpPut("{id}", Name = "UpdateCategory")]
-    public async Task<WidgetCategory> Update([FromBody] WidgetCategory widgetCategory)
+    public async Task<WidgetCategory> Update(int id, [FromBody] WidgetCategory widgetCategory)
     {
         return await _widgetCategoriesService.SaveWidgetCategoryAsync(widgetCategory);
     }

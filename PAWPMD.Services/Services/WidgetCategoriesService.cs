@@ -25,6 +25,7 @@ namespace PAWPMD.Service.Services
 
         Task<IEnumerable<WidgetCategory>> GetAllWidgetCategoriesAsync();
 
+
     }
     public class WidgetCategoriesService : IWidgetCategoriesService
     {
@@ -45,6 +46,8 @@ namespace PAWPMD.Service.Services
             return await _widgetCategoriesRepository.SaveWidgetCategoryAsync(widgetCategory);
         }
 
+
+
         //public async Task<bool> DeleteWidgetCategoryAsync(WidgetCategory widgetCategory)
         //{
         //    return await _widgetCategoriesRepository.DeleteWidgetCategoryAsync(widgetCategory);
@@ -61,6 +64,9 @@ namespace PAWPMD.Service.Services
         {
             return await _widgetCategoriesRepository.GetAllWidgetCategoriesAsync();
         }
+
+
+
 
         //confirmar si los de USER debe estar aqui
         public Task<UserWidget> GetUserWidget(int id)
