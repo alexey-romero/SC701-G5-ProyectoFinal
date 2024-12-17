@@ -11,10 +11,6 @@ public partial class UserWidget
 
     public int WidgetId { get; set; }
 
-    public int PositionX { get; set; }
-
-    public int PositionY { get; set; }
-
     public bool? IsFavorite { get; set; }
 
     public bool? IsVisible { get; set; }

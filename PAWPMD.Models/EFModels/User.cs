@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 namespace PAWPMD.Models;
 
 public partial class User
@@ -26,6 +25,4 @@ public partial class User
     public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
     public virtual ICollection<UserWidget> UserWidgets { get; set; } = new List<UserWidget>();
-
-    public virtual ICollection<Widget> Widgets { get; set; } = new List<Widget>();
 }

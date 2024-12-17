@@ -4,7 +4,8 @@ using PAWPMD.Models;
 using PAWPMD.Models.DTOS;
 using PAWPMD.Service.Mappers.DTOS;
 using PAWPMD.Service.Services;
-
+using PAWPMD.Service.Strategy;
+using PAWPMD.Models.Enums;
 namespace PAWPMD.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -14,14 +15,18 @@ namespace PAWPMD.Api.Controllers
         private readonly IWidgetService _widgetService;
         private readonly IUserWidgetService _userWidgetService;
         private readonly IWidgetSettingService _widgetSettingService;
-        public WidgetController(IWidgetService widgetService, IUserWidgetService userWidgetService, IWidgetSettingService widgetSettingService)
+        private readonly IWidgetStContext _widgetStContext;
+    
+        public WidgetController(IWidgetService widgetService, IUserWidgetService userWidgetService, IWidgetSettingService widgetSettingService, IWidgetStContext widgetStContext)
         {
+
             _widgetService = widgetService;
             _userWidgetService = userWidgetService;
             _widgetSettingService = widgetSettingService;
+            _widgetStContext = widgetStContext;
         }
 
-        [HttpGet(Name = "Get Widgets")]
+        [HttpGet("all", Name = "GetAllWidgets")]
         public async Task<IActionResult> GetWidgets()
         {
             try
@@ -51,8 +56,8 @@ namespace PAWPMD.Api.Controllers
                 {
                     return NotFound();
                 }
-
-                var userWidget = await _userWidgetService.GetUserWidgetByWidgetIdAsync(widget.WidgetId);
+                int parsedWidgetId = widget.WidgetId ?? 0;
+                var userWidget = await _userWidgetService.GetUserWidgetByWidgetIdAsync(parsedWidgetId);
                 if (userWidget == null)
                 {
                     return NotFound();
@@ -63,9 +68,6 @@ namespace PAWPMD.Api.Controllers
                 var widgetResponseDTO = new WidgetResponseDTO
                 {
                     Widget = new WidgetDTO(),
-                    Video = new WidgetVideoDTO(),
-                    Image = new WidgetImageDto(),
-                    Table = new WidgetTableDTO(),
                     UserWidget = new UserWidgetDTO(),
                     WidgetSetting = new WidgetSettingDTO()
                 };
@@ -84,33 +86,29 @@ namespace PAWPMD.Api.Controllers
         [HttpPost("saveWidget")]
         public async Task<IActionResult> SaveWidget([FromBody] WidgetRequestDTO widgetRequestDTO)
         {
-            var userId= 5;
+            var userId = 5;
             try
             {
-                var widget = await _widgetService.SaveWidgetAsync(widgetRequestDTO, userId, null);
-
-                //now we need to save UserWidget in the database
-          
-                var userWidget = await _userWidgetService.SaveUserWidgetAsync(widgetRequestDTO, widget, userId);
-
-                // then we can save the WidgetSettings for each user 
-                var widgetSettings = await _widgetSettingService.SaveWidgetSettinsAsync(widgetRequestDTO, userWidget);
-
-                var widgetResponseDTO = new WidgetResponseDTO
+                switch (widgetRequestDTO.Widget.CategoryId)
                 {
-                    Widget = new WidgetDTO(), 
-                    Video = new WidgetVideoDTO(),
-                    Image = new WidgetImageDto(),
-                    Table = new WidgetTableDTO(),
-                    UserWidget = new UserWidgetDTO(),
-                    WidgetSetting = new WidgetSettingDTO()
-                };
+                    case 1:
+                        var resultImage = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Image);
+                        return Ok(resultImage);
+                    case 2: 
+                        var result = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Weather);
+                        return Ok(result);
+                    case 4:
+                        var resultCityDetails = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.CityDetails);
+                       return Ok(resultCityDetails);
+                    case 5: 
+                        var resultNews = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.News);
+                        return Ok(resultNews);
 
-                var result = await WidgetDTOResponseMapper.PrepareWidgetDTOReponseDataAsync(widgetResponseDTO, widget, userWidget, widgetSettings);
-
-                return Ok(result);
-
-            }catch(Exception ex)
+                    default:
+                        throw new ArgumentException("Invalid widget type");
+                }
+            }
+            catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
@@ -137,9 +135,6 @@ namespace PAWPMD.Api.Controllers
                 var widgetResponseDTO = new WidgetResponseDTO
                 {
                     Widget = new WidgetDTO(),
-                    Video = new WidgetVideoDTO(),
-                    Image = new WidgetImageDto(),
-                    Table = new WidgetTableDTO(),
                     UserWidget = new UserWidgetDTO(),
                     WidgetSetting = new WidgetSettingDTO()
                 };
@@ -165,7 +160,8 @@ namespace PAWPMD.Api.Controllers
                 {
                     return NotFound();
                 }
-                var userWidget = await _userWidgetService.GetUserWidgetByWidgetIdAsync(widget.WidgetId);
+                int parsedWidgetId = widget.WidgetId ?? 0;
+                var userWidget = await _userWidgetService.GetUserWidgetByWidgetIdAsync(parsedWidgetId);
 
                 //falta por terminar
 

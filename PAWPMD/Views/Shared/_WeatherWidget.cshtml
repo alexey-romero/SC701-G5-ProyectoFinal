@@ -1,0 +1,26 @@
+﻿@model PAWPMD.Mvc.Models.WeatherWidgetModel
+
+<div class="card text-center mb-3 shadow-sm weather-widget">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Weather Details</h5>
+    </div>
+    <div class="card-body">
+        <h6 class="card-title text-primary">@Model.Location</h6>
+        <p class="card-text">
+            <strong>Current Temperature:</strong> @Model.CurrentTemperature °C
+        </p>
+        <p class="card-text">
+            <strong>Condition:</strong> @Model.WeatherCondition
+        </p>
+        <img src="@Model.WeatherIcon" alt="Weather Icon" class="img-fluid mb-2" style="max-width: 50px;" />
+        <ul class="list-group list-group-flush text-start">
+            <li class="list-group-item"><strong>Max Temperature:</strong> @Model.MaxTemperature °C</li>
+            <li class="list-group-item"><strong>Min Temperature:</strong> @Model.MinTemperature °C</li>
+            <li class="list-group-item"><strong>Humidity:</strong> @Model.Humidity %</li>
+            <li class="list-group-item"><strong>Precipitation Probability:</strong> @Model.PrecipitationProbability %</li>
+        </ul>
+    </div>
+    <div class="card-footer text-muted">
+        Updated just now
+    </div>
+</div>

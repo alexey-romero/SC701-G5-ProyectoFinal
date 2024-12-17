@@ -8,7 +8,7 @@ namespace PAWPMD.Models.DTOS
 {
 public class WidgetDTO
     {
-
+        public int? WidgetId { get; set; }
         public string Name { get; set; } = null!;
 
         public string? Description { get; set; }
@@ -16,6 +16,8 @@ public class WidgetDTO
         public string Apiendpoint { get; set; } = null!;
 
         public bool? RequiresApiKey { get; set; }
+
+        public int CategoryId { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 

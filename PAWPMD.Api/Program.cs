@@ -4,12 +4,12 @@ using PAWPMD.Architecture.Authentication;
 using PAWPMD.Architecture.Factory;
 using PAWPMD.Data.Repository;
 using PAWPMD.Service.Services;
+using PAWPMD.Service.Strategy;
+using PAWPMD.Strategy;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,13 +24,6 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 builder.Services.AddScoped<IWidgetService, WidgetService>();
 builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
-builder.Services.AddScoped<IWidgetFactory, WidgetFactory>();
-builder.Services.AddScoped<IWidgetTableService, WidgetTableService>();
-builder.Services.AddScoped<IWidgetImageService, WidgetImageService>();
-builder.Services.AddScoped<IWidgetVideoService, WidgetVideoService>();
-builder.Services.AddScoped<IWidgetImageRepository, WidgetImageRepository>();
-builder.Services.AddScoped<IWidgetTableRepository, WidgetTableRepository>();
-builder.Services.AddScoped<IWidgetVideoRepository, WidgetVideoRepository>();
 builder.Services.AddScoped<IUserWidgetService, UserWidgetService>();
 builder.Services.AddScoped<IUserWidgetRepository, UserWidgetRepository>();
 builder.Services.AddScoped<IWidgetSettingService, WidgetSettingService>();
@@ -38,6 +31,14 @@ builder.Services.AddScoped<IWidgetSettingRepository, WidgetSettingRepository>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 builder.Services.AddScoped<IWidgetRepository, WidgetRepository>();
 builder.Services.AddScoped<IWidgetService, WidgetService>();
+builder.Services.AddScoped<IWidgetStrategy, WeatherWidgetStrategy>();
+builder.Services.AddScoped<IWidgetStrategy, CityDetailsWidgetStrategy>();
+builder.Services.AddScoped<IOpenWeatherService, OpenWeatherService>();
+builder.Services.AddScoped<IWidgetStrategy, ImageWidgetStrategy>();
+builder.Services.AddScoped<IApiPexelsService,  ApiPexelsService>();
+builder.Services.AddScoped<IApiNewsService, ApiNewsService>();
+builder.Services.AddScoped<IWidgetStContext, WidgetStContext>();
+builder.Services.AddScoped<IApiNinjaService, ApiNinjaService>();
 //builder.Services.AddScoped<UserWidgetRepository, UserWidgetRepository>();
 //builder.Services.AddScoped<IUserWidgetService, UserWidgetService>();
 builder.Services.AddScoped<IWidgetCategoriesRepository, WidgetCategoriesRepository>();
