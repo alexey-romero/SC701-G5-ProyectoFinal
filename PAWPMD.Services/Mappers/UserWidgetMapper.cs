@@ -16,7 +16,7 @@ namespace PAWPMD.Service.Mappers
                 userWidget = new UserWidget
                 {
                     UserId = userId,
-                    WidgetId = widget.WidgetId,
+                    WidgetId = widget.WidgetId ?? 0,
                     IsFavorite = widgetRequestDTO.UserWidget.IsFavorite,
                     IsVisible = widgetRequestDTO.UserWidget.IsVisible,
                     CreatedAt = DateTime.Now

@@ -1,9 +1,13 @@
 ﻿using MediaDashboard.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PAWPMD.Architecture;
 using PAWPMD.Models;
+using PAWPMD.Models.DTOS;
 using PAWPMD.Mvc.Models;
+using PAWPMD.Mvc.ViewStrategies;
+using System.Dynamic;
 
 
 namespace PAWPMD.Mvc.Controllers
@@ -21,10 +25,76 @@ namespace PAWPMD.Mvc.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var jsonResponse = await _restProvider.GetAsync($"{_appSettings.Value.WidgetApi}/all", null);
+            var widgetResponse = JsonProvider.DeserializeSimple<List<WidgetResponseDTO>>(jsonResponse);
+
+            var widgets = new List<Widget>();
+            var widgetSettings = new List<WidgetSetting>();
+            var weatherWidgetModels = new List<WeatherWidgetModel>();
+
+            foreach (var widget in widgetResponse)
+            {
+                widgets.Add(new Widget
+                {
+                    WidgetId = widget.Widget.WidgetId,
+                    Name = widget.Widget.Name,
+                    Description = widget.Widget.Description,
+                    CategoryId = widget.Widget.CategoryId,
+                    Apiendpoint = widget.Widget.Apiendpoint,
+                    UserId = widget.Widget.UserId
+                });
+
+                // Utiliza los Settings directamente de la respuesta ya deserializada
+                var widgetSetting = new WidgetSetting
+                {
+                    UserWidgetId = widget.WidgetSetting.UserWidgetId,
+                    Settings = widget.WidgetSetting.Settings, // Settings ya están listos
+                    WidgetSettingsId = widget.WidgetSetting.WidgetSettingsId,
+                };
+
+                widgetSettings.Add(widgetSetting);
+
+                // Seleccionar y usar la estrategia adecuada
+                var strategy = WidgetViewStrategyFactory.GetStrategy(widget.Widget.CategoryId);
+                if (strategy is WeatherWidgetViewStrategy weatherStrategy)
+                {
+                    var weatherModel = weatherStrategy.GetWeatherModel(widget, widgetSetting);
+                    if (weatherModel != null)
+                    {
+                        weatherWidgetModels.Add(weatherModel);
+                    }
+                }
+
+            }
+
+            var viewModel = new WidgetViewModel
+            {
+                Widgets = widgets,
+                WidgetSettings = widgetSettings,
+                WeatherWidgets = weatherWidgetModels
+            };
+
+            return View(viewModel);
         }
+        public async Task<IActionResult> GetAllWidgets()
+        {
+            try
+            {
+                var jsonResponse = await _restProvider.GetAsync($"{_appSettings.Value.WidgetApi}/all", null);
+                var widgets = JsonProvider.DeserializeSimple<List<Widget>>(jsonResponse);
+                return PartialView("_WidgetCard", widgets);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load widgets.");
+                return Content("<p>Error loading widgets. Please try again later.</p>");
+            }
+        }
+
+
 
         public async Task<IActionResult> GetAllWidgetCategories()
         {
@@ -40,7 +110,6 @@ namespace PAWPMD.Mvc.Controllers
                 return Content("<p>Error loading categories. Please try again later.</p>");
             }
         }
-
 
         private class DeleteResponse
         {
@@ -90,6 +159,8 @@ namespace PAWPMD.Mvc.Controllers
             var widgetCategory = JsonProvider.DeserializeSimple<WidgetCategory>(jsonResponse);
             return View("_EditWidgetCategory", widgetCategory);
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

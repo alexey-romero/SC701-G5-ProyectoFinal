@@ -11,7 +11,7 @@ namespace PAWPMD.Service.Mappers.DTOS;
         {
             if (widget != null)
             {
-
+                widgetResponseDTO.Widget.WidgetId = widget.WidgetId;
                 widgetResponseDTO.Widget.Name = widget.Name;
                 widgetResponseDTO.Widget.Description = widget.Description;
                 widgetResponseDTO.Widget.Apiendpoint = widget.Apiendpoint;
@@ -65,5 +65,7 @@ namespace PAWPMD.Service.Mappers.DTOS;
 
         return widgetResponseDTOs;
     }
+
+ 
 }
 

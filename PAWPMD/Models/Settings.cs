@@ -12,6 +12,9 @@
         public string UserApi { get; set; }
 
         public string WidgetCategoriesApi { get; set; }
+
+        public string WidgetApi { get; set; }
+
     }
 
     public class LogginSettings

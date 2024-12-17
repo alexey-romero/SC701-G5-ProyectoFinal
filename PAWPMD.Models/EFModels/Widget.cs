@@ -5,7 +5,7 @@ namespace PAWPMD.Models;
 
 public partial class Widget
 {
-    public int WidgetId { get; set; }
+    public int? WidgetId { get; set; }
 
     public string Name { get; set; } = null!;
 

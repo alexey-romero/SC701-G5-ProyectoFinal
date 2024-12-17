@@ -1,0 +1,25 @@
+﻿@model PAWPMD.Mvc.Models.WidgetViewModel
+
+@foreach (var widget in Model.Widgets)
+{
+    <div class="widget">
+        <h3>@widget.Name</h3>
+        <p>@widget.Description</p>
+        <p>Category: @widget.CategoryId</p>
+        <p>API Endpoint: @widget.Apiendpoint</p>
+
+        @if (widget.CategoryId == 2) // Clima
+        {
+            // Busca el WeatherWidgetModel correspondiente
+            var weatherWidget = Model.WeatherWidgets?.FirstOrDefault(w => w.WidgetId == widget.WidgetId);
+            if (weatherWidget != null)
+            {
+                @Html.Partial("_WeatherWidget", weatherWidget)
+            }
+        }
+        else
+        {
+            <p>Unknown widget category: @widget.CategoryId</p>
+        }
+    </div>
+}
