@@ -26,6 +26,16 @@ namespace PAWPMD.Api.Controllers
             _widgetStContext = widgetStContext;
         }
 
+
+
+        /// <summary>
+        /// Retrieves all widgets along with their associated user-specific data and settings.
+        /// It aggregates the widget data, user widget data, and widget settings, then returns a list of widget responses.
+        /// </summary>
+        /// <returns>An HTTP response indicating the success or failure of the operation. If successful, a list of widget details is returned.</returns>
+        /// <response code="200">If the widgets and their related data are successfully retrieved, a successful response with the widget details list is returned.</response>
+        /// <response code="400">If an error occurs, an error message with details of the exception is returned.</response>
+
         [HttpGet("all", Name = "GetAllWidgets")]
         public async Task<IActionResult> GetWidgets()
         {
@@ -45,6 +55,18 @@ namespace PAWPMD.Api.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+
+        /// <summary>
+        /// Retrieves a widget by its ID and returns detailed information about it, including the widget data, user-specific widget data, and widget settings.
+        /// If the widget or related data cannot be found, a 404 Not Found response is returned.
+        /// </summary>
+        /// <param name="id">The unique identifier of the widget to retrieve.</param>
+        /// <returns>An HTTP response indicating the success or failure of the operation. If successful, the widget data, user widget data, and widget settings are returned.</returns>
+        /// <response code="200">If the widget and its related data are found, a successful response with the widget details is returned.</response>
+        /// <response code="400">If an error occurs, an error message with details of the exception is returned.</response>
+        /// <response code="404">If the widget or its related data cannot be found, a Not Found response is returned.</response>
 
         [HttpGet("{id}", Name = "GetWidget")]
         public async Task<IActionResult> GetWidget(int id)
@@ -83,6 +105,15 @@ namespace PAWPMD.Api.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Saves a widget based on the details provided in the request body.
+        /// The widget is processed according to its category and saved using the appropriate widget type, such as Image, Weather, CityDetails, or News.
+        /// </summary>
+        /// <param name="widgetRequestDTO">The object containing the widget's details to be saved, passed in the request body.</param>
+        /// <returns>An HTTP response indicating the success or failure of the operation. Returns the saved widget data if successful.</returns>
+        /// <response code="200">If the widget is saved successfully, the corresponding widget data is returned.</response>
+        /// <response code="400">If an error occurs, an error message with details of the exception is returned.</response>
         [HttpPost("saveWidget")]
         public async Task<IActionResult> SaveWidget([FromBody] WidgetRequestDTO widgetRequestDTO)
         {
@@ -114,6 +145,16 @@ namespace PAWPMD.Api.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Updates a widget based on its id and the details provided in the request body.
+        /// Depending on the widget's category type, it is processed and saved using different widget types.
+        /// </summary>
+        /// <param name="id">The unique identifier of the widget to be updated.</param>
+        /// <param name="widgetRequestDTO">The object containing the widget's information to be updated, passed in the request body.</param>
+        /// <returns>An HTTP response indicating the success or failure of the operation.</returns>
+        /// <response code="200">If the operation was successful, the result of the corresponding widget type is returned.</response>
+        /// <response code="400">If an exception occurred, an error message with details of the exception is returned.</response>
         [HttpPut("{id}", Name = "UpdateWidget")]
         public async Task<IActionResult> UpdateWidget(int id,[FromBody] WidgetRequestDTO widgetRequestDTO)
         {
@@ -159,7 +200,7 @@ namespace PAWPMD.Api.Controllers
                 int parsedWidgetId = widget.WidgetId ?? 0;
                 var userWidget = await _userWidgetService.GetUserWidgetByWidgetIdAsync(parsedWidgetId);
 
-                //falta por terminar
+       
 
                 await _widgetService.DeleteWidgetAsync(widget);
                 return  Ok("Widget has been eliminated");

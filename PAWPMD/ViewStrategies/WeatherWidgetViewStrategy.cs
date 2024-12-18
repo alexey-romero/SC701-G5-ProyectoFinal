@@ -28,7 +28,7 @@ namespace PAWPMD.Mvc.ViewStrategies
                 MinTemperature = minTemperature,
                 Humidity = humidity,
                 PrecipitationProbability = precipitationProbability,
-                WidgetId = widgetResponseDTO.Widget.WidgetId 
+                WidgetId = widgetResponseDTO.Widget.WidgetId
             };
         }
 
