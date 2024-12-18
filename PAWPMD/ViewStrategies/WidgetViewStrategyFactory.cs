@@ -7,7 +7,11 @@
             return categoryId switch
             {
 
+                1 => new ImageWidgetViewStrategy(),
                 2 => new WeatherWidgetViewStrategy(),
+                3 => new CityDetailsWidgetViewStrategy(),
+                4 => new NewsWidgetViewStrategy(),
+
                 _ => null
             };
         }

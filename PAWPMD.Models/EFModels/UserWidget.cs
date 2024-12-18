@@ -7,7 +7,7 @@ public partial class UserWidget
 {
     public int UserWidgetId { get; set; }
 
-    public int? UserId { get; set; }
+    public int ?UserId { get; set; }
 
     public int WidgetId { get; set; }
 
