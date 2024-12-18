@@ -24,13 +24,23 @@ namespace PAWPMD.Service.Services
             string previousDate = DateTime.UtcNow.AddDays(-1).ToString("yyyy-MM-dd");
             string sortBy = "popularity";
 
+            // Codificar los parámetros para evitar caracteres problemáticos en la URL
+            string encodedQuerie = Uri.EscapeDataString(querie);
+            string encodedApiKey = Uri.EscapeDataString(apiKey);
+
             // Construcción de la URL
-            string url = $"{baseUrl}?q={querie}&from={previousDate}&to={previousDate}&sortBy={sortBy}&apiKey={apiKey}";
+            string url = $"{baseUrl}?q={encodedQuerie}&from={previousDate}&to={previousDate}&sortBy={sortBy}&apiKey={encodedApiKey}";
+
+            client.DefaultRequestHeaders.Add("User-Agent", "YourAppName/1.0");
 
             HttpResponseMessage response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                string errorResponse = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error: {response.StatusCode}, Response: {errorResponse}");
+            }
 
+            string responseBody = await response.Content.ReadAsStringAsync();
             JObject news = JObject.Parse(responseBody);
 
             return news.ToString();
