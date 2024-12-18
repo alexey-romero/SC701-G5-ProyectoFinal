@@ -118,31 +118,27 @@ namespace PAWPMD.Api.Controllers
         public async Task<IActionResult> UpdateWidget(int id,[FromBody] WidgetRequestDTO widgetRequestDTO)
         {
             int ? userId = null;
-            
+
             try
             {
-                var widget = await _widgetService.SaveWidgetAsync(widgetRequestDTO, userId , id);
-                if (widget == null)
+                switch (widgetRequestDTO.Widget.CategoryId)
                 {
-                    return NotFound();
+                    case 1:
+                        var resultImage = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Image);
+                        return Ok(resultImage);
+                    case 2:
+                        var result = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Weather);
+                        return Ok(result);
+                    case 4:
+                        var resultCityDetails = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.CityDetails);
+                        return Ok(resultCityDetails);
+                    case 5:
+                        var resultNews = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.News);
+                        return Ok(resultNews);
+
+                    default:
+                        throw new ArgumentException("Invalid widget type");
                 }
-                //UPDATE USER WIDGET
-                var userWidget = await _userWidgetService.SaveUserWidgetAsync(widgetRequestDTO, widget, userId);
-
-                //UPDATE WIDGET SETTINGS
-                var widgetSettings = await _widgetSettingService.SaveWidgetSettinsAsync(widgetRequestDTO, userWidget);
-                
-                var widgetResponseDTO = new WidgetResponseDTO
-                {
-                    Widget = new WidgetDTO(),
-                    UserWidget = new UserWidgetDTO(),
-                    WidgetSetting = new WidgetSettingDTO()
-                };
-
-                var result = await WidgetDTOResponseMapper.PrepareWidgetDTOReponseDataAsync(widgetResponseDTO, widget, userWidget, widgetSettings);
-
-                return Ok(result);
-
             }
             catch (Exception ex)
             {
