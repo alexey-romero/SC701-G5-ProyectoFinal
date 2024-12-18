@@ -7,6 +7,16 @@ namespace PAWPMD.Mvc.ViewStrategies
 {
     public class NewsWidgetViewStrategy : IWidgetViewStrategy
     {
+        public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ImageWidgetModel GetImageModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
         public NewsWidgetModel GetNewsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
         {
             var json = setting.Settings.ToString();
@@ -24,6 +34,16 @@ namespace PAWPMD.Mvc.ViewStrategies
                 PublishedAt = newsData["publishedAt"]?.ToObject<DateTime>() ?? DateTime.MinValue,
                 Content = newsData["content"]?.ToString()
             };
+        }
+
+        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WeatherWidgetModel GetWeatherModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
         }
 
         public void RenderWidget(WidgetResponseDTO widgetResponseDTO, WidgetSetting widgetSetting)

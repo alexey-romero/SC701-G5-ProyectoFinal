@@ -25,9 +25,23 @@ namespace PAWPMD.Mvc.ViewStrategies
             };
         }
 
+        public ImageWidgetModel GetImageModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WeatherWidgetModel GetWeatherModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
         public void RenderWidget(WidgetResponseDTO widgetResponseDTO, WidgetSetting widgetSetting)
         {
-            // Implementación personalizada para renderizar el widget de detalles de la ciudad.
             throw new NotImplementedException();
         }
     }

@@ -7,6 +7,11 @@ namespace PAWPMD.Mvc.ViewStrategies
 {
     public class ImageWidgetViewStrategy : IWidgetViewStrategy
     {
+        public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
         public ImageWidgetModel GetImageModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
         {
             var json = setting.Settings.ToString();
@@ -29,6 +34,16 @@ namespace PAWPMD.Mvc.ViewStrategies
                 TinyUrl = imageData["tinyUrl"]?.ToString(),
                 WidgetId = widgetResponseDTO.Widget.WidgetId
             };
+        }
+
+        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WeatherWidgetModel GetWeatherModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
         }
 
         public void RenderWidget(WidgetResponseDTO widgetResponseDTO, WidgetSetting widgetSetting)

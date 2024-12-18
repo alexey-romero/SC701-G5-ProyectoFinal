@@ -7,6 +7,21 @@ namespace PAWPMD.Mvc.ViewStrategies
 {
     public class WeatherWidgetViewStrategy : IWidgetViewStrategy
     {
+        public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ImageWidgetModel GetImageModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
         public WeatherWidgetModel GetWeatherModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
         {
             var json = setting.Settings.ToString();
