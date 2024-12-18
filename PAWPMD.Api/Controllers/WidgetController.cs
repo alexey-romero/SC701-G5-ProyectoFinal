@@ -118,23 +118,23 @@ namespace PAWPMD.Api.Controllers
         public async Task<IActionResult> SaveWidget([FromBody] WidgetRequestDTO widgetRequestDTO)
         {
             var userId = 5;
+            var categoryId = (WidgetType)widgetRequestDTO.Widget.CategoryId;
             try
             {
-                switch (widgetRequestDTO.Widget.CategoryId)
+                switch (categoryId)
                 {
-                    case 1:
+                    case WidgetType.Image:
                         var resultImage = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Image);
                         return Ok(resultImage);
-                    case 2: 
+                    case WidgetType.Weather: 
                         var result = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Weather);
                         return Ok(result);
-                    case 4:
+                    case WidgetType.CityDetails:
                         var resultCityDetails = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.CityDetails);
                        return Ok(resultCityDetails);
-                    case 5: 
+                    case WidgetType.News: 
                         var resultNews = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.News);
                         return Ok(resultNews);
-
                     default:
                         throw new ArgumentException("Invalid widget type");
                 }
@@ -159,24 +159,24 @@ namespace PAWPMD.Api.Controllers
         public async Task<IActionResult> UpdateWidget(int id,[FromBody] WidgetRequestDTO widgetRequestDTO)
         {
             int ? userId = null;
+            var categoryId = (WidgetType)widgetRequestDTO.Widget.CategoryId;
 
             try
             {
-                switch (widgetRequestDTO.Widget.CategoryId)
+                switch (categoryId)
                 {
-                    case 1:
+                    case WidgetType.Image:
                         var resultImage = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Image);
                         return Ok(resultImage);
-                    case 2:
+                    case WidgetType.Weather:
                         var result = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.Weather);
                         return Ok(result);
-                    case 4:
+                    case WidgetType.CityDetails:
                         var resultCityDetails = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.CityDetails);
                         return Ok(resultCityDetails);
-                    case 5:
+                    case WidgetType.News:
                         var resultNews = await _widgetStContext.SaveWidgetAsync(widgetRequestDTO, userId, null, WidgetType.News);
                         return Ok(resultNews);
-
                     default:
                         throw new ArgumentException("Invalid widget type");
                 }

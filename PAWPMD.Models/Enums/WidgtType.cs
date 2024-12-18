@@ -8,10 +8,10 @@ namespace PAWPMD.Models.Enums
 {
     public enum WidgetType
     {
-        Image,
-        Video,
-        Weather,
-        CityDetails,
-        News
+        Image = 1,
+        Video = 2,
+        Weather = 3,
+        CityDetails = 4,
+        News = 5
     }
 }

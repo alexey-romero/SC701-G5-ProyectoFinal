@@ -1,18 +1,18 @@
-﻿namespace PAWPMD.Mvc.ViewStrategies
+﻿using PAWPMD.Models.Enums;
+
+namespace PAWPMD.Mvc.ViewStrategies
 {
     public static class WidgetViewStrategyFactory
     {
-        public static IWidgetViewStrategy GetStrategy(int categoryId)
+        public static IWidgetViewStrategy GetStrategy(WidgetType widgetType)
         {
-            return categoryId switch
+            return widgetType switch
             {
-
-                1 => new ImageWidgetViewStrategy(),
-                2 => new WeatherWidgetViewStrategy(),
-                3 => new CityDetailsWidgetViewStrategy(),
-                4 => new NewsWidgetViewStrategy(),
-
-                _ => null
+                WidgetType.Image => new ImageWidgetViewStrategy(),
+                WidgetType.Weather => new WeatherWidgetViewStrategy(),
+                WidgetType.CityDetails => new CityDetailsWidgetViewStrategy(),
+                WidgetType.News => new NewsWidgetViewStrategy(),
+                _ => throw new ArgumentException($"No strategy found for widget type: {widgetType}")
             };
         }
     }

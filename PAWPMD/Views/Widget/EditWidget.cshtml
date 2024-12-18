@@ -1,0 +1,131 @@
+﻿@model PAWPMD.Models.DTOS.WidgetResponseDTO
+
+@{
+    ViewData["Title"] = "Edit Widget";
+}
+
+<div class="container mt-4">
+    <h2>Edit Widget</h2>
+
+    <form id="editWidgetForm">
+        <div class="form-group">
+            <label for="widgetName">Widget Name</label>
+            <input type="text" class="form-control" id="widgetName" name="WidgetName" value="@Model.Widget.Name" required />
+        </div>
+
+        <div class="form-group">
+            <label for="widgetDescription">Description</label>
+            <textarea class="form-control" id="widgetDescription" name="WidgetDescription" required>@Model.Widget.Description</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="categoryId">Select Category</label>
+            <select class="form-control" id="categoryId" name="CategoryId" required onchange="handleCategoryChange()">
+                <option value="">-- Select Category --</option>
+                @foreach (var category in ViewBag.WidgetCategories as List<PAWPMD.Models.WidgetCategory>)
+                {
+                    if (category.CategoryId == Model.Widget.CategoryId)
+                    {
+                        <option value="@category.CategoryId" selected>@category.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@category.CategoryId">@category.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div id="dynamicParamContainer" class="form-group" style="display:none;">
+            <label for="widgetSettingParam">Enter Setting Parameter</label>
+            <input type="text" class="form-control" id="widgetSettingParam" name="WidgetSettingParam" />
+        </div>
+
+        <input type="hidden" name="WidgetId" value="@Model.Widget.WidgetId" />
+        <input type="hidden" name="UserId" value="@Model.Widget.UserId" />
+        <input type="hidden" name ="WidgetSettingId" value="@Model.WidgetSetting.WidgetSettingsId" />
+        <input type="hidden" name= "UserWidgetId" value="@Model.UserWidget.UserWidgetId"/>
+
+        <label for="favorite">Check As Fav:</label>
+        <input type="checkbox" id="favorite" name="favorite" @(Model.UserWidget?.IsFavorite == true ? "checked" : "")>
+
+        <label for="visible">Check as Visible:</label>
+        <input type="checkbox" id="visible" name="visible" @(Model.UserWidget?.IsVisible == true ? "checked" : "")>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+<script>
+
+    var queryFromServer = "@ViewBag.Query";
+    var cityFromServer = "@ViewBag.City";
+
+    function handleCategoryChange() {
+        var categoryId = document.getElementById('categoryId').value;
+        var dynamicParamContainer = document.getElementById('dynamicParamContainer');
+        var widgetSettingParam = document.getElementById('widgetSettingParam');
+
+        widgetSettingParam.value = '';
+
+        if (categoryId == "1" || categoryId == "5") { 
+            dynamicParamContainer.style.display = 'block';
+            widgetSettingParam.placeholder = 'Enter the query parameter';
+            widgetSettingParam.value = queryFromServer; 
+        } else if (categoryId == "3" || categoryId == "4") {  
+            dynamicParamContainer.style.display = 'block';
+            widgetSettingParam.placeholder = 'Enter the city';
+            widgetSettingParam.value = cityFromServer;
+        } else {
+            dynamicParamContainer.style.display = 'none';
+            widgetSettingParam.value = ''; 
+        }
+    }
+    document.getElementById('editWidgetForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+        var jsonData = {};
+
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+
+        jsonData['favorite'] = document.getElementById('favorite').checked;
+        jsonData['visible'] = document.getElementById('visible').checked;
+
+        var categoryId = document.getElementById('categoryId').value;
+        var widgetSettingParam = document.getElementById('widgetSettingParam').value;
+
+        var widgetSetting = {};
+        if (categoryId == "1" || categoryId == "5") {
+            widgetSetting.querie = widgetSettingParam;
+        } else if (categoryId == "3" || categoryId == "4") {
+            widgetSetting.city = widgetSettingParam;
+        }
+
+        jsonData["WidgetSetting"] = widgetSetting;
+
+        fetch('@Url.Action("EditWidget", "Widget")', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '@Url.Action("Index", "Widget")';
+                } else {
+                    alert("There was an error updating the widget.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An unexpected error occurred.");
+            });
+    });
+
+    handleCategoryChange();
+</script>

@@ -1,0 +1,28 @@
+﻿@model PAWPMD.Mvc.Models.CityDetailsWidgetModel
+
+<div class="card text-center mb-3 shadow-sm city-details-widget">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">City Details: @Model.Location</h5>
+    </div>
+    <div class="card-body">
+        <h6 class="card-title text-primary">@Model.Location</h6>
+        <p class="card-text">
+            <strong>Country:</strong> @Model.Country
+        </p>
+        <p class="card-text">
+            <strong>Latitude:</strong> @Model.Latitude
+        </p>
+        <p class="card-text">
+            <strong>Longitude:</strong> @Model.Longitude
+        </p>
+        <p class="card-text">
+            <strong>Population:</strong> @Model.Population
+        </p>
+        <p class="card-text">
+            <strong>Capital City:</strong> @(Model.IsCapital ? "Yes" : "No")
+        </p>
+    </div>
+    <div class="card-footer text-muted">
+        City Information
+    </div>
+</div>

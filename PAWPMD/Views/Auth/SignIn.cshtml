@@ -18,7 +18,7 @@
                         @if (!Model.IsValid())
                         {
                             <div class="alert alert-danger text-center">
-                                Please provide either a username or an email.
+                                Please provide either a username.
                             </div>
                         }
 
@@ -28,11 +28,6 @@
                             @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                         </div>
 
-                        <div class="form-group mt-3">
-                            @Html.LabelFor(model => model.Email, "Email")
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Enter email" })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                        </div>
 
                         <div class="form-group mt-3">
                             @Html.LabelFor(model => model.Password, "Password")
