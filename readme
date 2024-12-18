@@ -1,0 +1,25 @@
+Integrantes de proyecto:
+Fabiola Rodriguez Pichardo, Vivian Gabriela Quiros Matarrita, Aaron Josue Vasquez Gonzalez Y Alexey Fabian Romero Sanchez
+
+Link a repositorio en Github:
+https://github.com/alexey-romero/SC701-G5-ProyectoFinal.git
+
+
+3. Especificación básica del proyecto: 
+a. Arquitectura del proyecto ( tipos de proyectos que utilizo y contiene el programa):
+Proyectos de tipo: API,Architecture, Data, Models, Mvc y Services
+b. Libraries o paquetes de nuget utilizados:
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.EntityFrameworkCore.SqlServer
+
+c. Principios de SOLID y patrones de diseño utilizados
+Se utilizo el patron de diseño de Strategy aplicado para manejar la lógica específica de diferentes categorías de widgets, como imágenes, clima o noticias.
+Se utilizo Dependency Injection para inyectar dependencias como servicios o configuraciones.
+El patron Repository se utilizo para la lógica de acceso a datos y proporcionar una interfaz común para interactuar con las entidades de la base de datos.
+De igual manera, se utilizo Factory que proporciona una forma de crear objetos de tipo Widget según su tipo sin exponer la lógica de instanciación.
+
+En cuanto a principios SOLID, se utilizo ISP creando interfaces específicas que dividen la lógica de datos en pequeñas interfaces, evitando que las clases implementen métodos innecesarios. 
+De igual manera, el principio LSP se implementó al utilizar RepositoryBase<T> que es reemplazable por cualquier repositorio específico sin alterar la funcionalidad del sistema.
+Single Responsability Principle también esta presenta para que ciertas clases solo tenga responsabilidad sobre una funcionalidad.

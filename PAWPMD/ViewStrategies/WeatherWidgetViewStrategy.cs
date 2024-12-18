@@ -7,20 +7,6 @@ namespace PAWPMD.Mvc.ViewStrategies
 {
     public class WeatherWidgetViewStrategy : IWidgetViewStrategy
     {
-        public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ImageWidgetModel GetImageModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
-        {
-            throw new NotImplementedException();
-        }
-
-        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
-        {
-            throw new NotImplementedException();
-        }
 
         public WeatherWidgetModel GetWeatherModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
         {
@@ -46,6 +32,22 @@ namespace PAWPMD.Mvc.ViewStrategies
                 WidgetId = widgetResponseDTO.Widget.WidgetId
             };
         }
+        public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ImageWidgetModel GetImageModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
+        }
+
+     
 
         public void RenderWidget(WidgetResponseDTO widgetResponseDTO, WidgetSetting widgetSetting)
         {

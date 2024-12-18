@@ -1,0 +1,20 @@
+﻿@model PAWPMD.Mvc.Models.ImageWidgetModel
+
+<div class="card text-center mb-3 shadow-sm image-widget">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Image by @Model.PhotographerName</h5>
+    </div>
+    <div class="card-body">
+        <h6 class="card-title text-primary">@Model.ImageAltText</h6>
+        <img src="@Model.OriginalUrl" alt="@Model.ImageAltText" class="img-fluid mb-2" style="max-width: 100%; height: auto;" />
+        <p class="card-text">
+            <strong>Photographer:</strong> <a href="@Model.PhotographerUrl" target="_blank">@Model.PhotographerName</a>
+        </p>
+        <p class="card-text">
+            <strong>Average Color:</strong> <span style="background-color: @Model.AvgColor; padding: 5px; color: white;">&nbsp;&nbsp;&nbsp;</span>
+        </p>
+    </div>
+    <div class="card-footer text-muted">
+        Image from Pexels
+    </div>
+</div>

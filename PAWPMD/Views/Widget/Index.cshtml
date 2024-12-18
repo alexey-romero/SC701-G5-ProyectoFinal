@@ -1,6 +1,12 @@
 ﻿@model PAWPMD.Mvc.Models.WidgetViewModel
 
 <div class="container mt-4">
+    <div class="d-flex justify-content-start align-items-center mt-5 mb-4">
+        <a href="@Url.Action("CreateWidget", "Widget")" class="btn btn-success btn-lg mx-1">
+            <i class="bi bi-plus"></i> Add new widget
+        </a>
+    </div>
+
     <div class="row">
         @foreach (var widget in Model.Widgets)
         {
@@ -9,12 +15,24 @@
                     <div class="card-body">
                         <h5 class="card-title text-primary">@widget.Name</h5>
                         <p class="card-text">@widget.Description</p>
-                        @if (widget.CategoryId == 2) 
+
+                        @if (widget.CategoryId == 1)
+                        {
+                            var imageWidget = Model.ImageWidgets?.FirstOrDefault(w => w.WidgetId == widget.WidgetId);
+                            if (imageWidget != null)
+                            {
+                                @Html.Partial("_WidgetImage", imageWidget)
+                            }
+                            else
+                            {
+                                <p class="text-warning">Image data not available.</p>
+                            }
+                        }
+                        else if (widget.CategoryId == 3)
                         {
                             var weatherWidget = Model.WeatherWidgets?.FirstOrDefault(w => w.WidgetId == widget.WidgetId);
                             if (weatherWidget != null)
                             {
-                            
                                 @Html.Partial("_WeatherWidget", weatherWidget)
                             }
                             else
@@ -22,10 +40,41 @@
                                 <p class="text-warning">Weather data not available.</p>
                             }
                         }
+                        else if (widget.CategoryId == 4)
+                        {
+                            var cityDetailWidget = Model.CityDetails?.FirstOrDefault(w => w.WidgetId == widget.WidgetId);
+                            if (cityDetailWidget != null)
+                            {
+                                @Html.Partial("_CityDetailWidget", cityDetailWidget)
+                            }
+                            else
+                            {
+                                <p class="text-warning">City data not available.</p>
+                            }
+                        }
+
+                        else if (widget.CategoryId == 5)
+                        {
+                            var newsWidget = Model.NewsWidgets?.FirstOrDefault(w => w.WidgetId == widget.WidgetId);
+                            if (newsWidget != null)
+                            {
+                                @Html.Partial("_NewWidget", newsWidget)
+                            }
+                            else
+                            {
+                                <p class="text-warning">News data not available.</p>
+                            }
+                        }
                         else
                         {
                             <p class="text-danger">Unknown widget category: @widget.CategoryId</p>
                         }
+
+                        <div class="mt-3">
+                            <a href="@Url.Action("EditWidget", "Widget", new { widgetId = widget.WidgetId })" class="btn btn-primary">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

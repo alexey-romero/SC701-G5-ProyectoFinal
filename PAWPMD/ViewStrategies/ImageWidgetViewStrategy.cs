@@ -7,33 +7,39 @@ namespace PAWPMD.Mvc.ViewStrategies
 {
     public class ImageWidgetViewStrategy : IWidgetViewStrategy
     {
-        public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
-        {
-            throw new NotImplementedException();
-        }
 
         public ImageWidgetModel GetImageModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
         {
             var json = setting.Settings.ToString();
             var jObject = JObject.Parse(json);
-            var imageData = jObject["image"];
+
+            var imageData = jObject["images"]?["photos"]?.FirstOrDefault();
+             
+            if (imageData == null)
+            {
+                return new ImageWidgetModel();
+            }
 
             return new ImageWidgetModel
             {
                 Id = (int)widgetResponseDTO.Widget.WidgetId,
-                PhotographerName = imageData["photographerName"]?.ToString(),
-                PhotographerUrl = imageData["photographerUrl"]?.ToString(),
-                ImageAltText = imageData["imageAltText"]?.ToString(),
-                AvgColor = imageData["avgColor"]?.ToString(),
-                OriginalUrl = imageData["originalUrl"]?.ToString(),
-                LargeUrl = imageData["largeUrl"]?.ToString(),
-                MediumUrl = imageData["mediumUrl"]?.ToString(),
-                SmallUrl = imageData["smallUrl"]?.ToString(),
-                PortraitUrl = imageData["portraitUrl"]?.ToString(),
-                LandscapeUrl = imageData["landscapeUrl"]?.ToString(),
-                TinyUrl = imageData["tinyUrl"]?.ToString(),
+                PhotographerName = imageData["photographer"]?.ToString(),
+                PhotographerUrl = imageData["photographer_url"]?.ToString(),
+                ImageAltText = imageData["alt"]?.ToString(),
+                AvgColor = imageData["avg_color"]?.ToString(),
+                OriginalUrl = imageData["src"]?["original"]?.ToString(),
+                LargeUrl = imageData["src"]?["large"]?.ToString(),
+                MediumUrl = imageData["src"]?["medium"]?.ToString(),
+                SmallUrl = imageData["src"]?["small"]?.ToString(),
+                PortraitUrl = imageData["src"]?["portrait"]?.ToString(),
+                LandscapeUrl = imageData["src"]?["landscape"]?.ToString(),
+                TinyUrl = imageData["src"]?["tiny"]?.ToString(),
                 WidgetId = widgetResponseDTO.Widget.WidgetId
             };
+        }
+        public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            throw new NotImplementedException();
         }
 
         public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)

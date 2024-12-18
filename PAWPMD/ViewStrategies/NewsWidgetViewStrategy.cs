@@ -7,6 +7,39 @@ namespace PAWPMD.Mvc.ViewStrategies
 {
     public class NewsWidgetViewStrategy : IWidgetViewStrategy
     {
+
+        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
+        {
+            var json = setting.Settings.ToString() ;
+
+
+            var jObject = JObject.Parse(json);
+
+            var newsData = jObject["newsData"];
+
+            var articles = newsData["articles"]?.ToList(); 
+
+            if(articles == null && articles.Count > 0)
+            {
+                return new NewsWidgetModel();
+            }
+
+            var randomArticle = articles[new Random().Next(articles.Count)];
+
+            return new NewsWidgetModel
+            {
+                SourceName = randomArticle["source"]?["name"]?.ToString(),
+                Author = randomArticle["author"]?.ToString(),
+                Title = randomArticle["title"]?.ToString(),
+                Description = randomArticle["description"]?.ToString(),
+                Url = randomArticle["url"]?.ToString(),
+                UrlToImage = randomArticle["urlToImage"]?.ToString(),
+                PublishedAt = randomArticle["publishedAt"]?.ToObject<DateTime>() ?? DateTime.MinValue,
+                Content = randomArticle["content"]?.ToString(),
+                WidgetId = widgetResponseDTO.Widget.WidgetId
+            };
+        }
+
         public CityDetailsWidgetModel GetCityDetailsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
         {
             throw new NotImplementedException();
@@ -16,31 +49,6 @@ namespace PAWPMD.Mvc.ViewStrategies
         {
             throw new NotImplementedException();
         }
-
-        public NewsWidgetModel GetNewsModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
-        {
-            var json = setting.Settings.ToString();
-            var jObject = JObject.Parse(json);
-            var newsData = jObject["news"];
-
-            return new NewsWidgetModel
-            {
-                SourceName = newsData["sourceName"]?.ToString(),
-                Author = newsData["author"]?.ToString(),
-                Title = newsData["title"]?.ToString(),
-                Description = newsData["description"]?.ToString(),
-                Url = newsData["url"]?.ToString(),
-                UrlToImage = newsData["urlToImage"]?.ToString(),
-                PublishedAt = newsData["publishedAt"]?.ToObject<DateTime>() ?? DateTime.MinValue,
-                Content = newsData["content"]?.ToString()
-            };
-        }
-
-        public NewsWidgetModel GetNewsWidgetModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
-        {
-            throw new NotImplementedException();
-        }
-
         public WeatherWidgetModel GetWeatherModel(WidgetResponseDTO widgetResponseDTO, WidgetSetting setting)
         {
             throw new NotImplementedException();
@@ -48,7 +56,7 @@ namespace PAWPMD.Mvc.ViewStrategies
 
         public void RenderWidget(WidgetResponseDTO widgetResponseDTO, WidgetSetting widgetSetting)
         {
-            // Implementación personalizada para renderizar el widget de noticias.
+          
             throw new NotImplementedException();
         }
     }

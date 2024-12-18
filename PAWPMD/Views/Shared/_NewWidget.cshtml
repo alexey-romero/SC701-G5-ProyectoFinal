@@ -1,0 +1,22 @@
+﻿@model PAWPMD.Mvc.Models.NewsWidgetModel
+
+<div class="card text-center mb-3 shadow-sm news-widget">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Latest News</h5>
+    </div>
+    <div class="card-body">
+        <h6 class="card-title text-primary">@Model.Title</h6>
+        <p class="card-text"><strong>By:</strong> @Model.Author</p>
+        <p class="card-text">
+            <strong>Description:</strong> @Model.Description
+        </p>
+        <img src="@Model.UrlToImage" alt="News Image" class="img-fluid mb-2" style="max-width: 100%; height: auto;" />
+        <p class="card-text">
+            <strong>Content:</strong> @Model.Content
+        </p>
+        <a href="@Model.Url" class="btn btn-primary" target="_blank">Read More</a>
+    </div>
+    <div class="card-footer text-muted">
+        Published on @Model.PublishedAt.ToString("MMMM dd, yyyy")
+    </div>
+</div>

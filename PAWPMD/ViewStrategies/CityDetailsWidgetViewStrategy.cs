@@ -11,17 +11,23 @@ namespace PAWPMD.Mvc.ViewStrategies
         {
             var json = setting.Settings.ToString();
             var jObject = JObject.Parse(json);
-            var cityData = jObject["cityDetails"];
+
+            var cityData = jObject["cityData"]; 
+
+            if (cityData == null)
+            {
+                return new CityDetailsWidgetModel();
+            }
 
             return new CityDetailsWidgetModel
             {
-                Location = cityData["location"]?.ToString(),
-                Latitude = cityData["latitude"]?.ToObject<double>() ?? 0,
-                Longitude = cityData["longitude"]?.ToObject<double>() ?? 0,
-                Country = cityData["country"]?.ToString(),
-                Population = cityData["population"]?.ToObject<int>() ?? 0,
-                IsCapital = cityData["isCapital"]?.ToObject<bool>() ?? false,
-                WidgetId = widgetResponseDTO.Widget.WidgetId
+                Location = cityData["name"]?.ToString(),  // Ciudad
+                Latitude = cityData["latitude"]?.ToObject<double>() ?? 0,  // Latitud
+                Longitude = cityData["longitude"]?.ToObject<double>() ?? 0,  // Longitud
+                Country = cityData["country"]?.ToString(),  // País
+                Population = cityData["population"]?.ToObject<int>() ?? 0,  // Población
+                IsCapital = cityData["is_capital"]?.ToObject<bool>() ?? false,  // Es capital
+                WidgetId = widgetResponseDTO.Widget.WidgetId  // ID del widget
             };
         }
 

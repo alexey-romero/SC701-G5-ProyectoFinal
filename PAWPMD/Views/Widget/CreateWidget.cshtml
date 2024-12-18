@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Create Widget";
+}
+
+
+<div class="container mt-4">
+    <h2>Create a New Widget</h2>
+
+    <form id="createWidgetForm">
+
+        <!-- Widget Name -->
+        <div class="form-group">
+            <label for="widgetName">Widget Name</label>
+            <input type="text" class="form-control" id="widgetName" name="WidgetName" required />
+        </div>
+
+        <!-- Widget Description -->
+        <div class="form-group">
+            <label for="widgetDescription">Description</label>
+            <textarea class="form-control" id="widgetDescription" name="WidgetDescription" required></textarea>
+        </div>
+
+        <!-- Select Category -->
+        <div class="form-group">
+            <label for="categoryId">Select Category</label>
+            <select class="form-control" id="categoryId" name="CategoryId" required onchange="handleCategoryChange()">
+                <option value="">-- Select Category --</option>
+                @foreach (var category in ViewBag.WidgetCategories as List<PAWPMD.Models.WidgetCategory>)
+                {
+                    <option value="@category.CategoryId">@category.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Dynamic Parameters for Settings -->
+        <div id="dynamicParamContainer" class="form-group" style="display:none;">
+            <label for="widgetSettingParam">Enter Setting Parameter</label>
+            <input type="text" class="form-control" id="widgetSettingParam" name="WidgetSettingParam" />
+        </div>
+
+        <!-- Hidden Fields for Apiendpoint -->
+        <input type="hidden" name="Widget.Apiendpoint" value="YourApiEndpointHere" />
+
+        <label for="favorite">Check As Fav:</label>
+        <input type="checkbox" id="favorite" name="favorite">
+
+        <label for="visible">Check as Visible:</label>
+        <input type="checkbox" id="visible" name="visible">
+
+        <button type="submit" class="btn btn-success">Create Widget</button>
+    </form>
+</div>
+
+<script>
+    // Handle the dynamic field display based on the selected category
+    function handleCategoryChange() {
+        var categoryId = document.getElementById('categoryId').value;
+        var dynamicParamContainer = document.getElementById('dynamicParamContainer');
+        var widgetSettingParam = document.getElementById('widgetSettingParam');
+
+        // Reset value
+        widgetSettingParam.value = '';
+
+        // Show or hide parameter field based on category
+        if (categoryId == "1" || categoryId == "5") {  // Category 1 or 5 (e.g., 'query' param)
+            dynamicParamContainer.style.display = 'block';
+            widgetSettingParam.placeholder = 'Enter the query parameter';
+        } else if (categoryId == "3" || categoryId == "4") {  // Category 3 or 4 (e.g., 'city' param)
+            dynamicParamContainer.style.display = 'block';
+            widgetSettingParam.placeholder = 'Enter the  city';
+        } else {
+            dynamicParamContainer.style.display = 'none';
+        }
+    }
+
+    document.getElementById('createWidgetForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Get the form data and convert it to JSON
+        var formData = new FormData(this);
+        var jsonData = {};
+
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+
+        jsonData['favorite'] = document.getElementById('favorite').checked;
+        jsonData['visible'] = document.getElementById('visible').checked;
+
+        // Handle dynamic settings parameter
+        var categoryId = document.getElementById('categoryId').value;
+        var widgetSettingParam = document.getElementById('widgetSettingParam').value;
+
+        var widgetSetting = {};
+        if (categoryId == "1" || categoryId == "5") {
+            widgetSetting.querie = widgetSettingParam;
+        } else if (categoryId == "3" || categoryId == "4") {
+            widgetSetting.city = widgetSettingParam;
+        }
+
+        jsonData["WidgetSetting"] = widgetSetting;
+
+        // Send the data as JSON to the controller
+        fetch('@Url.Action("CreateWidget", "Widget")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response, e.g., redirect to another page or show success message
+                if (data.success) {
+                    window.location.href = '@Url.Action("Index", "Widget")';
+                } else {
+                    alert("There was an error processing the form.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An unexpected error occurred.");
+            });
+    });
+</script>
