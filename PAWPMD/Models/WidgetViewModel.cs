@@ -8,5 +8,6 @@ namespace PAWPMD.Mvc.Models
         public List<WidgetSetting> WidgetSettings { get; set; }
 
         public List<WeatherWidgetModel>? WeatherWidgets { get; set; }
+
     }
 }

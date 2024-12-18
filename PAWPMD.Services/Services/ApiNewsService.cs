@@ -9,6 +9,15 @@ namespace PAWPMD.Service.Services
 {
     public interface IApiNewsService
     {
+
+        /// <summary>
+        /// Asynchronously retrieves news articles from the NewsAPI based on a query and API key. The method constructs a URL with the provided query and API key, and fetches news articles that match the query from the previous day.
+        /// </summary>
+        /// <param name="querie">The search query used to filter the news articles. This can be any keyword or phrase you want to search for in the news articles.</param>
+        /// <param name="apiKey">The API key required to authenticate the request to NewsAPI. This key should be obtained from the NewsAPI service.</param>
+        /// <returns>A `Task` representing the asynchronous operation. The task result is a JSON string containing the news articles matching the query from the previous day.</returns>
+        /// <exception cref="Exception">Thrown if the HTTP request is unsuccessful. The exception message contains the status code and error response from the NewsAPI.</exception>
+
         Task<string> GetNewsByQuerie(string querie, string apiKey);
     }
 
@@ -16,19 +25,25 @@ namespace PAWPMD.Service.Services
     {
         private static readonly HttpClient client = new HttpClient();
 
+
+        /// <summary>
+        /// Asynchronously retrieves news articles from the NewsAPI based on a query and API key. The method constructs a URL with the provided query and API key, and fetches news articles that match the query from the previous day.
+        /// </summary>
+        /// <param name="querie">The search query used to filter the news articles. This can be any keyword or phrase you want to search for in the news articles.</param>
+        /// <param name="apiKey">The API key required to authenticate the request to NewsAPI. This key should be obtained from the NewsAPI service.</param>
+        /// <returns>A `Task` representing the asynchronous operation. The task result is a JSON string containing the news articles matching the query from the previous day.</returns>
+        /// <exception cref="Exception">Thrown if the HTTP request is unsuccessful. The exception message contains the status code and error response from the NewsAPI.</exception>
+
         public async Task<string> GetNewsByQuerie(string querie, string apiKey)
         {
             string baseUrl = "https://newsapi.org/v2/everything";
 
-            // Obtener la fecha del día anterior en formato correcto
             string previousDate = DateTime.UtcNow.AddDays(-1).ToString("yyyy-MM-dd");
             string sortBy = "popularity";
 
-            // Codificar los parámetros para evitar caracteres problemáticos en la URL
             string encodedQuerie = Uri.EscapeDataString(querie);
             string encodedApiKey = Uri.EscapeDataString(apiKey);
 
-            // Construcción de la URL
             string url = $"{baseUrl}?q={encodedQuerie}&from={previousDate}&to={previousDate}&sortBy={sortBy}&apiKey={encodedApiKey}";
 
             client.DefaultRequestHeaders.Add("User-Agent", "YourAppName/1.0");

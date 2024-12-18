@@ -47,17 +47,16 @@ namespace PAWPMD.Mvc.Controllers
                     UserId = widget.Widget.UserId
                 });
 
-                // Utiliza los Settings directamente de la respuesta ya deserializada
                 var widgetSetting = new WidgetSetting
                 {
                     UserWidgetId = widget.WidgetSetting.UserWidgetId,
-                    Settings = widget.WidgetSetting.Settings, // Settings ya están listos
+                    Settings = widget.WidgetSetting.Settings, 
                     WidgetSettingsId = widget.WidgetSetting.WidgetSettingsId,
                 };
 
                 widgetSettings.Add(widgetSetting);
 
-                // Seleccionar y usar la estrategia adecuada
+             
                 var strategy = WidgetViewStrategyFactory.GetStrategy(widget.Widget.CategoryId);
                 if (strategy is WeatherWidgetViewStrategy weatherStrategy)
                 {
@@ -67,6 +66,8 @@ namespace PAWPMD.Mvc.Controllers
                         weatherWidgetModels.Add(weatherModel);
                     }
                 }
+
+
 
             }
 

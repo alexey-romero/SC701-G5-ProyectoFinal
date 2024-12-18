@@ -6,6 +6,7 @@
         {
             return categoryId switch
             {
+
                 2 => new WeatherWidgetViewStrategy(),
                 _ => null
             };
